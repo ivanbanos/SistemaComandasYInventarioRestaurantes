@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="SistemaComandasPU" transaction-type="JTA">
+    <jta-data-source>jdbc/restaurantes</jta-data-source>
+    <class>com.hatapp.comandas.entity.Fotos</class>
+    <class>com.hatapp.comandas.entity.Clientes</class>
+    <class>com.hatapp.comandas.entity.Cuentas</class>
+    <class>com.hatapp.comandas.entity.Perfiles</class>
+    <class>com.hatapp.comandas.entity.Atributosusuario</class>
+    <class>com.hatapp.comandas.entity.PedidosHasAcompanantes</class>
+    <class>com.hatapp.comandas.entity.Mesas</class>
+    <class>com.hatapp.comandas.entity.Roles</class>
+    <class>com.hatapp.comandas.entity.Pedidos</class>
+    <class>com.hatapp.comandas.entity.Ingredientes</class>
+    <class>com.hatapp.comandas.entity.Acompanantes</class>
+    <class>com.hatapp.comandas.entity.Funciones</class>
+    <class>com.hatapp.comandas.entity.Atributosclientes</class>
+    <class>com.hatapp.comandas.entity.Vistas</class>
+    <class>com.hatapp.comandas.entity.Inventario</class>
+    <class>com.hatapp.comandas.entity.Usuarios</class>
+    <class>com.hatapp.comandas.entity.Facturas</class>
+    <class>com.hatapp.comandas.entity.Configuraciones</class>
+    <class>com.hatapp.comandas.entity.Platos</class>
+    <class>com.hatapp.comandas.entity.MesasHasClientes</class>
+    <class>com.hatapp.comandas.entity.PedidosHasPlatos</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties/>
+  </persistence-unit>
+</persistence>
