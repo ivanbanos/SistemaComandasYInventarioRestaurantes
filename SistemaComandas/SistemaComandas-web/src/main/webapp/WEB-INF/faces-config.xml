@@ -7,7 +7,7 @@
     <renderer>
         <component-family>org.primefaces.component</component-family>
         <renderer-type>org.primefaces.component.FileUploadRenderer</renderer-type>
-        <renderer-class>com.invbf.adminclientesweb.util.MyFileUploadRenderer</renderer-class>
+        <renderer-class>com.hatapp.Comandas.util.MyFileUploadRenderer</renderer-class>
     </renderer>
 </render-kit>
 </faces-config>

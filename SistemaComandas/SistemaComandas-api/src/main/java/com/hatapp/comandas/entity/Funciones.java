@@ -35,6 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Funciones.findById", query = "SELECT f FROM Funciones f WHERE f.id = :id"),
     @NamedQuery(name = "Funciones.findByNombre", query = "SELECT f FROM Funciones f WHERE f.nombre = :nombre")})
 public class Funciones implements Serializable {
+    @ManyToMany(mappedBy = "funcionesList")
+    private List<Roles> rolesList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,11 +46,6 @@ public class Funciones implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
-    @JoinTable(name = "roles_has_funciones", joinColumns = {
-        @JoinColumn(name = "Funciones_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "Roles_id", referencedColumnName = "id")})
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Roles> rolesList;
 
     public Funciones() {
     }

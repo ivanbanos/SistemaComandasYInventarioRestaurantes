@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -40,6 +41,13 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Platos.findByGrupo", query = "SELECT p FROM Platos p WHERE p.grupo = :grupo"),
     @NamedQuery(name = "Platos.findByTipo", query = "SELECT p FROM Platos p WHERE p.tipo = :tipo")})
 public class Platos implements Serializable {
+    @ManyToMany(mappedBy = "platosList")
+    private List<Menu> menuList;
+    @JoinTable(name = "platos_has_ingredientes", joinColumns = {
+        @JoinColumn(name = "Platos_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "Ingredientes_id", referencedColumnName = "id")})
+    @ManyToMany
+    private List<Ingredientes> ingredientesList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,8 +64,6 @@ public class Platos implements Serializable {
     private String grupo;
     @Column(name = "tipo")
     private Integer tipo;
-    @ManyToMany(mappedBy = "platosList", fetch = FetchType.EAGER)
-    private List<Ingredientes> ingredientesList;
     @JoinColumn(name = "Foto", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Fotos foto;
@@ -166,6 +172,15 @@ public class Platos implements Serializable {
     @Override
     public String toString() {
         return "com.hatapp.comandas.entity.Platos[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Menu> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(List<Menu> menuList) {
+        this.menuList = menuList;
     }
     
 }

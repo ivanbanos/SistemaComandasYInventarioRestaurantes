@@ -15,6 +15,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -35,6 +37,16 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Roles.findById", query = "SELECT r FROM Roles r WHERE r.id = :id"),
     @NamedQuery(name = "Roles.findByNombre", query = "SELECT r FROM Roles r WHERE r.nombre = :nombre")})
 public class Roles implements Serializable {
+    @JoinTable(name = "roles_has_funciones", joinColumns = {
+        @JoinColumn(name = "Roles_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "Funciones_id", referencedColumnName = "id")})
+    @ManyToMany
+    private List<Funciones> funcionesList;
+    @JoinTable(name = "roles_has_vistas", joinColumns = {
+        @JoinColumn(name = "Roles_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "Vistas_id", referencedColumnName = "id")})
+    @ManyToMany
+    private List<Vistas> vistasList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,8 +56,6 @@ public class Roles implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
-    @ManyToMany(mappedBy = "rolesList", fetch = FetchType.EAGER)
-    private List<Funciones> funcionesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol", fetch = FetchType.EAGER)
     private List<Usuarios> usuariosList;
 
@@ -118,6 +128,15 @@ public class Roles implements Serializable {
     @Override
     public String toString() {
         return "com.hatapp.comandas.entity.Roles[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Vistas> getVistasList() {
+        return vistasList;
+    }
+
+    public void setVistasList(List<Vistas> vistasList) {
+        this.vistasList = vistasList;
     }
     
 }

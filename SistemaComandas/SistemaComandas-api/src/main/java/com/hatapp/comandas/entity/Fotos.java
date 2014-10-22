@@ -34,14 +34,14 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Fotos.findByFormato", query = "SELECT f FROM Fotos f WHERE f.formato = :formato"),
     @NamedQuery(name = "Fotos.findByUrl", query = "SELECT f FROM Fotos f WHERE f.url = :url")})
 public class Fotos implements Serializable {
+    @Lob
+    @Column(name = "imagen")
+    private byte[] imagen;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Lob
-    @Column(name = "imagen")
-    private byte[] imagen;
     @Column(name = "mime")
     private String mime;
     @Column(name = "formato")
@@ -72,14 +72,6 @@ public class Fotos implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public byte[] getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(byte[] imagen) {
-        this.imagen = imagen;
     }
 
     public String getMime() {
@@ -147,6 +139,14 @@ public class Fotos implements Serializable {
     @Override
     public String toString() {
         return "com.hatapp.comandas.entity.Fotos[ id=" + id + " ]";
+    }
+
+    public byte[] getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
     }
     
 }

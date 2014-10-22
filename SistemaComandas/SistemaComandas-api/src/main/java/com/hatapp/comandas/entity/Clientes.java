@@ -13,6 +13,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -34,6 +36,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Clientes.findByNombre", query = "SELECT c FROM Clientes c WHERE c.nombre = :nombre"),
     @NamedQuery(name = "Clientes.findByApellido", query = "SELECT c FROM Clientes c WHERE c.apellido = :apellido")})
 public class Clientes implements Serializable {
+    @JoinTable(name = "clientes_has_atributos", joinColumns = {
+        @JoinColumn(name = "Clientes_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "AtributosClientes_id", referencedColumnName = "id")})
+    @ManyToMany
+    private List<Atributosclientes> atributosclientesList;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -43,8 +50,6 @@ public class Clientes implements Serializable {
     private String nombre;
     @Column(name = "apellido")
     private String apellido;
-    @ManyToMany(mappedBy = "clientesList", fetch = FetchType.EAGER)
-    private List<Atributosclientes> atributosclientesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientes", fetch = FetchType.EAGER)
     private List<MesasHasClientes> mesasHasClientesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente", fetch = FetchType.EAGER)

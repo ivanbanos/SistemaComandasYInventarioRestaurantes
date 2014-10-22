@@ -33,6 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Atributosclientes.findById", query = "SELECT a FROM Atributosclientes a WHERE a.id = :id"),
     @NamedQuery(name = "Atributosclientes.findByNombre", query = "SELECT a FROM Atributosclientes a WHERE a.nombre = :nombre")})
 public class Atributosclientes implements Serializable {
+    @ManyToMany(mappedBy = "atributosclientesList")
+    private List<Clientes> clientesList;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -41,11 +43,6 @@ public class Atributosclientes implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
-    @JoinTable(name = "clientes_has_atributos", joinColumns = {
-        @JoinColumn(name = "AtributosClientes_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "Clientes_id", referencedColumnName = "id")})
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Clientes> clientesList;
 
     public Atributosclientes() {
     }

@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -36,6 +37,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuarios.findByPassword", query = "SELECT u FROM Usuarios u WHERE u.password = :password"),
     @NamedQuery(name = "Usuarios.findByEstado", query = "SELECT u FROM Usuarios u WHERE u.estado = :estado")})
 public class Usuarios implements Serializable {
+    @JoinTable(name = "usuarios_has_atributos", joinColumns = {
+        @JoinColumn(name = "Usuarios_username", referencedColumnName = "username")}, inverseJoinColumns = {
+        @JoinColumn(name = "AtributosUsuario_id", referencedColumnName = "id")})
+    @ManyToMany
+    private List<Atributosusuario> atributosusuarioList;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -47,16 +53,11 @@ public class Usuarios implements Serializable {
     @Basic(optional = false)
     @Column(name = "estado")
     private int estado;
-    @ManyToMany(mappedBy = "usuariosList", fetch = FetchType.EAGER)
-    private List<Atributosusuario> atributosusuarioList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.EAGER)
     private List<Cuentas> cuentasList;
     @JoinColumn(name = "Rol", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Roles rol;
-    @JoinColumn(name = "Perfil", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Perfiles perfil;
 
     public Usuarios() {
     }
@@ -119,14 +120,6 @@ public class Usuarios implements Serializable {
 
     public void setRol(Roles rol) {
         this.rol = rol;
-    }
-
-    public Perfiles getPerfil() {
-        return perfil;
-    }
-
-    public void setPerfil(Perfiles perfil) {
-        this.perfil = perfil;
     }
 
     @Override

@@ -33,6 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Vistas.findById", query = "SELECT v FROM Vistas v WHERE v.id = :id"),
     @NamedQuery(name = "Vistas.findByNombre", query = "SELECT v FROM Vistas v WHERE v.nombre = :nombre")})
 public class Vistas implements Serializable {
+    @ManyToMany(mappedBy = "vistasList")
+    private List<Roles> rolesList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,8 +44,6 @@ public class Vistas implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
-    @ManyToMany(mappedBy = "vistasList", fetch = FetchType.EAGER)
-    private List<Perfiles> perfilesList;
 
     public Vistas() {
     }
@@ -73,15 +73,6 @@ public class Vistas implements Serializable {
         this.nombre = nombre;
     }
 
-    @XmlTransient
-    public List<Perfiles> getPerfilesList() {
-        return perfilesList;
-    }
-
-    public void setPerfilesList(List<Perfiles> perfilesList) {
-        this.perfilesList = perfilesList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -105,6 +96,15 @@ public class Vistas implements Serializable {
     @Override
     public String toString() {
         return "com.hatapp.comandas.entity.Vistas[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Roles> getRolesList() {
+        return rolesList;
+    }
+
+    public void setRolesList(List<Roles> rolesList) {
+        this.rolesList = rolesList;
     }
     
 }

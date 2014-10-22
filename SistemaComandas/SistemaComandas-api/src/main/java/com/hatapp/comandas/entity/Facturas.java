@@ -30,14 +30,14 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Facturas.findAll", query = "SELECT f FROM Facturas f"),
     @NamedQuery(name = "Facturas.findById", query = "SELECT f FROM Facturas f WHERE f.id = :id")})
 public class Facturas implements Serializable {
+    @Lob
+    @Column(name = "factura")
+    private byte[] factura;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Lob
-    @Column(name = "factura")
-    private byte[] factura;
     @JoinColumn(name = "Cuenta", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Cuentas cuenta;
@@ -55,14 +55,6 @@ public class Facturas implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public byte[] getFactura() {
-        return factura;
-    }
-
-    public void setFactura(byte[] factura) {
-        this.factura = factura;
     }
 
     public Cuentas getCuenta() {
@@ -96,6 +88,14 @@ public class Facturas implements Serializable {
     @Override
     public String toString() {
         return "com.hatapp.comandas.entity.Facturas[ id=" + id + " ]";
+    }
+
+    public byte[] getFactura() {
+        return factura;
+    }
+
+    public void setFactura(byte[] factura) {
+        this.factura = factura;
     }
     
 }

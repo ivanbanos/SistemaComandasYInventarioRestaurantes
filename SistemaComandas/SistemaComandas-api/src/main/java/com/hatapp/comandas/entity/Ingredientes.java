@@ -37,6 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Ingredientes.findByNombre", query = "SELECT i FROM Ingredientes i WHERE i.nombre = :nombre"),
     @NamedQuery(name = "Ingredientes.findByUnidadMedida", query = "SELECT i FROM Ingredientes i WHERE i.unidadMedida = :unidadMedida")})
 public class Ingredientes implements Serializable {
+    @ManyToMany(mappedBy = "ingredientesList")
+    private List<Platos> platosList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,11 +53,6 @@ public class Ingredientes implements Serializable {
     private String unidadMedida;
     @ManyToMany(mappedBy = "ingredientesList", fetch = FetchType.EAGER)
     private List<Acompanantes> acompanantesList;
-    @JoinTable(name = "platos_has_ingredientes", joinColumns = {
-        @JoinColumn(name = "Ingredientes_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "Platos_id", referencedColumnName = "id")})
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Platos> platosList;
     @JoinColumn(name = "Inventario_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Inventario inventarioid;
