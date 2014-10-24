@@ -6,6 +6,7 @@
 package com.hatapp.comandas.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -37,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Roles.findById", query = "SELECT r FROM Roles r WHERE r.id = :id"),
     @NamedQuery(name = "Roles.findByNombre", query = "SELECT r FROM Roles r WHERE r.nombre = :nombre")})
 public class Roles implements Serializable {
+
     @JoinTable(name = "roles_has_funciones", joinColumns = {
         @JoinColumn(name = "Roles_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "Funciones_id", referencedColumnName = "id")})
@@ -60,15 +62,24 @@ public class Roles implements Serializable {
     private List<Usuarios> usuariosList;
 
     public Roles() {
+        usuariosList = new ArrayList<Usuarios>();
+        funcionesList = new ArrayList<Funciones>();
+        vistasList = new ArrayList<Vistas>();
     }
 
     public Roles(Integer id) {
         this.id = id;
+        usuariosList = new ArrayList<Usuarios>();
+        funcionesList = new ArrayList<Funciones>();
+        vistasList = new ArrayList<Vistas>();
     }
 
     public Roles(Integer id, String nombre) {
         this.id = id;
         this.nombre = nombre;
+        usuariosList = new ArrayList<Usuarios>();
+        funcionesList = new ArrayList<Funciones>();
+        vistasList = new ArrayList<Vistas>();
     }
 
     public Integer getId() {
@@ -138,5 +149,4 @@ public class Roles implements Serializable {
     public void setVistasList(List<Vistas> vistasList) {
         this.vistasList = vistasList;
     }
-    
 }

@@ -9,5 +9,34 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:define name="content">
+        <h:form>
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 panel-body panel-bodyindex">
+                        <c:if test="#{sessionBean.perfilMatch(&quot;IndexGestionParametros&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;IndexGestionParametros&quot;)}" class="btn btn-primary btn-lg">
+                                <i class="fa fa-cogs fa-5x"></i> <br/>#{label['parametros']}</h:commandLink>
+                        </c:if>
+                        <c:if test="#{sessionBean.perfilMatch(&quot;IndexGestionUsuarios&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;IndexGestionUsuarios&quot;)}" class="btn btn-primary btn-lg">
+                                <i class="fa fa-users fa-5x"></i> <br/>#{label['usuarios']}</h:commandLink>
+                        </c:if>
+                        <c:if test="#{sessionBean.perfilMatch(&quot;Inventario&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;Inventario&quot;)}" class="btn btn-primary btn-lg">
+                                <i class="fa fa-archive fa-5x"></i> <br/>#{label['inventario']}</h:commandLink>
+                        </c:if>
+                        <c:if test="#{sessionBean.perfilMatch(&quot;Pedidos&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;Pedidos&quot;)}" class="btn btn-primary btn-lg">
+                                <i class="fa fa-pencil-square-o fa-5x"></i> <br/>#{label['pedidos']}</h:commandLink>
+                        </c:if>
+                        <c:if test="#{sessionBean.perfilMatch(&quot;Reportes&quot;)}">
+                            <h:commandLink  action="#{sessionBean.go(&quot;Reportes&quot;)}" class="btn btn-primary btn-lg">
+                                <i class="fa fa-bar-chart-o fa-5x"></i> <br/>#{label['reportes']}</h:commandLink>
+                        </c:if>
+                    </div>
+                </div>
+            </div>
+        </h:form>
     </ui:define>            
 </ui:composition>

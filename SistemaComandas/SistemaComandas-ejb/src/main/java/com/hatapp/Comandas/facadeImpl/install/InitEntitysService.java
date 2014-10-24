@@ -6,8 +6,10 @@ package com.hatapp.Comandas.facadeImpl.install;
 
 import com.hatapp.Comandas.facadeImpl.RolesFacade;
 import com.hatapp.Comandas.facadeImpl.UsuariosFacade;
+import com.hatapp.Comandas.facadeImpl.VistasFacade;
 import com.hatapp.comandas.entity.Roles;
 import com.hatapp.comandas.entity.Usuarios;
+import com.hatapp.comandas.entity.Vistas;
 import com.hatapp.comandas.util.EncryptUtil;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
@@ -29,6 +31,8 @@ public class InitEntitysService {
     UsuariosFacade usuariosFacade;
     @EJB
     RolesFacade rolesFacade;
+    @EJB
+    VistasFacade vistasFacade;
 
     /**
      * 1. dependiendo de un parametro de configuracion el sistema debe
@@ -50,6 +54,21 @@ public class InitEntitysService {
             try {
                 Usuarios nuevo = new Usuarios("root", EncryptUtil.encryptPassword("123456"), 1);
                 Roles rol = createRol("administrador");
+                Vistas vista = createVista("IndexGestionParametros");
+                vistasFacade.create(vista);
+                rol.getVistasList().add(vista);
+                vista = createVista("Reportes");
+                vistasFacade.create(vista);
+                rol.getVistasList().add(vista);
+                vista = createVista("IndexGestionUsuarios");
+                vistasFacade.create(vista);
+                rol.getVistasList().add(vista);
+                vista = createVista("Inventario");
+                vistasFacade.create(vista);
+                rol.getVistasList().add(vista);
+                vista = createVista("Pedidos");
+                vistasFacade.create(vista);
+                rol.getVistasList().add(vista);
                 rolesFacade.create(rol);
                 nuevo.setRol(rol);
                 usuariosFacade.create(nuevo);
@@ -64,5 +83,11 @@ public class InitEntitysService {
         Roles rol = new Roles();
         rol.setNombre(nombre);
         return rol;
+    }
+
+    private Vistas createVista(String nombre) {
+        Vistas v = new Vistas();
+        v.setNombre(nombre);
+        return v;
     }
 }

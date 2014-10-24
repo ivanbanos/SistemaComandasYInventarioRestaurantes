@@ -166,12 +166,28 @@ public class SessionBean implements Serializable {
     }
 
     public String go(String page) {
-        if (page.equals("inicio")) {
-            active = "inicio";
-            return "/pages/index.xhtml";
-        } else {
-            return "";
+        switch (page) {
+            case "inicio":
+                return "/pages/index.xhtml";
+            case "IndexGestionParametros":
+                return "/pages/IndexGestionParametros.xhtml";
+            case "IndexGestionUsuarios":
+                return "/pages/IndexGestionUsuarios.xhtml";
+            case "Inventario":
+                return "/pages/Inventario.xhtml";
+            case "Pedidos":
+                return "/pages/Pedidos.xhtml";
+            case "Reportes":
+                return "/pages/Reportes.xhtml";
+            case "usuarios":
+                return "/pages/usuariosList.xhtml";
+            case "perfiles":
+                return "/pages/perfilesList.xhtml";
+            default:
+                return "";
+
         }
+       
     }
 
     void obtenerUsuario(String idUsuario) {

@@ -36,7 +36,7 @@
                             <span class="fa fa-bars"></span>
                         </button>
                         <div class="col-lg-8">
-                            <h1 class="titulo">#{label['title.app']}</h1>
+                            <h:commandLink action="#{sessionBean.go(&quot;inicio&quot;)}" class="titulo">#{label['title.app']}</h:commandLink>
                         </div>
                         <div class="col-lg-4">
                             <ul class="nav navbar-nav navbar-right">
@@ -58,13 +58,7 @@
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav navbar-left">
-                            <li >
-                                <h:commandLink  action="#{sessionBean.go(&quot;inicio&quot;)}" class="navbar-text-selected" value="#{label['inicio']}" rendered="#{sessionBean.isActive(&quot;inicio&quot;)}"/>
-                                <h:commandLink action="#{sessionBean.go(&quot;inicio&quot;)}" class="navbar-text" value="#{label['inicio']}" rendered="#{sessionBean.isNotActive(&quot;inicio&quot;)}"/>
-                            </li>
-
-                        </ul>
+                            
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
             </nav>
@@ -112,7 +106,7 @@
                 </div>
             </div>
         </div>
-       
+
     </h:body>
 
 </html>

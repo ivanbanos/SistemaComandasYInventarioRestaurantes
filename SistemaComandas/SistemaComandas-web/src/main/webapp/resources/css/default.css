@@ -144,6 +144,8 @@ a:focus{
 
 .titulo{
     color: #CE6B0F!important;
+    
+    font-size: 40px!important;
 }
 
 .ui-state-default .ui-icon {
