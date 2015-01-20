@@ -10,7 +10,6 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -36,18 +36,22 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Atributosusuario.findByNombre", query = "SELECT a FROM Atributosusuario a WHERE a.nombre = :nombre"),
     @NamedQuery(name = "Atributosusuario.findByTipo", query = "SELECT a FROM Atributosusuario a WHERE a.tipo = :tipo")})
 public class Atributosusuario implements Serializable {
-    @ManyToMany(mappedBy = "atributosusuarioList")
-    private List<Usuarios> usuariosList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Size(max = 45)
     @Column(name = "nombre")
     private String nombre;
     @Column(name = "tipo")
     private Integer tipo;
+    @JoinTable(name = "usuarios_has_atributos", joinColumns = {
+        @JoinColumn(name = "AtributosUsuario_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "Usuarios_username", referencedColumnName = "username")})
+    @ManyToMany
+    private List<Usuarios> usuariosList;
 
     public Atributosusuario() {
     }
@@ -113,5 +117,5 @@ public class Atributosusuario implements Serializable {
     public String toString() {
         return "com.hatapp.comandas.entity.Atributosusuario[ id=" + id + " ]";
     }
-
-    }
+    
+}

@@ -11,18 +11,18 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -41,10 +41,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Platos.findByGrupo", query = "SELECT p FROM Platos p WHERE p.grupo = :grupo"),
     @NamedQuery(name = "Platos.findByTipo", query = "SELECT p FROM Platos p WHERE p.tipo = :tipo")})
 public class Platos implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "platos")
-    private List<PlatosHasIngredientes> platosHasIngredientesList;
-    @ManyToMany(mappedBy = "platosList")
-    private List<Menu> menuList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,20 +48,28 @@ public class Platos implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "nombre")
     private String nombre;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "precio")
     private float precio;
+    @Size(max = 45)
     @Column(name = "grupo")
     private String grupo;
     @Column(name = "tipo")
     private Integer tipo;
+    @ManyToMany(mappedBy = "platosList")
+    private List<Menu> menuList;
     @JoinColumn(name = "Foto", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Fotos foto;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "platos", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "platos")
     private List<PedidosHasPlatos> pedidosHasPlatosList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "platos")
+    private List<PlatosHasIngredientes> platosHasIngredientesList;
 
     public Platos() {
     }
@@ -120,6 +124,15 @@ public class Platos implements Serializable {
         this.tipo = tipo;
     }
 
+    @XmlTransient
+    public List<Menu> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(List<Menu> menuList) {
+        this.menuList = menuList;
+    }
+
     public Fotos getFoto() {
         return foto;
     }
@@ -135,6 +148,15 @@ public class Platos implements Serializable {
 
     public void setPedidosHasPlatosList(List<PedidosHasPlatos> pedidosHasPlatosList) {
         this.pedidosHasPlatosList = pedidosHasPlatosList;
+    }
+
+    @XmlTransient
+    public List<PlatosHasIngredientes> getPlatosHasIngredientesList() {
+        return platosHasIngredientesList;
+    }
+
+    public void setPlatosHasIngredientesList(List<PlatosHasIngredientes> platosHasIngredientesList) {
+        this.platosHasIngredientesList = platosHasIngredientesList;
     }
 
     @Override
@@ -160,24 +182,6 @@ public class Platos implements Serializable {
     @Override
     public String toString() {
         return "com.hatapp.comandas.entity.Platos[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Menu> getMenuList() {
-        return menuList;
-    }
-
-    public void setMenuList(List<Menu> menuList) {
-        this.menuList = menuList;
-    }
-
-    @XmlTransient
-    public List<PlatosHasIngredientes> getPlatosHasIngredientesList() {
-        return platosHasIngredientesList;
-    }
-
-    public void setPlatosHasIngredientesList(List<PlatosHasIngredientes> platosHasIngredientesList) {
-        this.platosHasIngredientesList = platosHasIngredientesList;
     }
     
 }

@@ -9,6 +9,7 @@ import com.hatapp.comandas.entity.Fotos;
 import com.hatapp.comandas.entity.Ingredientes;
 import com.hatapp.comandas.entity.Mesas;
 import com.hatapp.comandas.entity.Platos;
+import com.hatapp.comandas.entity.Unidadesmedidas;
 import java.util.List;
 
 /**
@@ -46,6 +47,8 @@ public interface ManagerUserFacade {
     public Fotos crearFoto(Fotos foto);
 
     public void crearPlato(Platos elemento);
+
+    public List<Unidadesmedidas> getAllUnidadesDeMedida();
 
     
 }

@@ -5,7 +5,7 @@
  */
 package com.hatapp.Comandas.facadeImpl;
 
-import com.hatapp.comandas.entity.Funciones;
+import com.hatapp.comandas.entity.Unidadesmedidas;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author ivan
  */
 @Stateless
-public class FuncionesFacade extends AbstractFacade<Funciones> {
+public class UnidadesmedidasFacade extends AbstractFacade<Unidadesmedidas> {
     @PersistenceContext(unitName = "SistemaComandasPU")
     private EntityManager em;
 
@@ -24,8 +24,8 @@ public class FuncionesFacade extends AbstractFacade<Funciones> {
         return em;
     }
 
-    public FuncionesFacade() {
-        super(Funciones.class);
+    public UnidadesmedidasFacade() {
+        super(Unidadesmedidas.class);
     }
     
 }

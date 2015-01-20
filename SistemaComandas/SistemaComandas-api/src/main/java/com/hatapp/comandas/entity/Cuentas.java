@@ -11,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -21,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -38,22 +38,23 @@ public class Cuentas implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @JoinTable(name = "cuentas_has_mesas", joinColumns = {
         @JoinColumn(name = "Cuentas_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "Mesas_id", referencedColumnName = "id")})
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private List<Mesas> mesasList;
-    @JoinColumn(name = "cliente", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Clientes cliente;
     @JoinColumn(name = "Usuario", referencedColumnName = "username")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private Usuarios usuario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cuenta", fetch = FetchType.EAGER)
+    @JoinColumn(name = "cliente", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Clientes cliente;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cuenta")
     private List<Pedidos> pedidosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cuenta", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cuenta")
     private List<Facturas> facturasList;
 
     public Cuentas() {
@@ -80,20 +81,20 @@ public class Cuentas implements Serializable {
         this.mesasList = mesasList;
     }
 
-    public Clientes getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Clientes cliente) {
-        this.cliente = cliente;
-    }
-
     public Usuarios getUsuario() {
         return usuario;
     }
 
     public void setUsuario(Usuarios usuario) {
         this.usuario = usuario;
+    }
+
+    public Clientes getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Clientes cliente) {
+        this.cliente = cliente;
     }
 
     @XmlTransient

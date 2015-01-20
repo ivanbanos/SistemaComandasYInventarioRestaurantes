@@ -6,13 +6,11 @@
 package com.hatapp.comandas.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,6 +21,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -38,17 +38,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Roles.findById", query = "SELECT r FROM Roles r WHERE r.id = :id"),
     @NamedQuery(name = "Roles.findByNombre", query = "SELECT r FROM Roles r WHERE r.nombre = :nombre")})
 public class Roles implements Serializable {
-
-    @JoinTable(name = "roles_has_funciones", joinColumns = {
-        @JoinColumn(name = "Roles_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "Funciones_id", referencedColumnName = "id")})
-    @ManyToMany
-    private List<Funciones> funcionesList;
-    @JoinTable(name = "roles_has_vistas", joinColumns = {
-        @JoinColumn(name = "Roles_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "Vistas_id", referencedColumnName = "id")})
-    @ManyToMany
-    private List<Vistas> vistasList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,30 +45,30 @@ public class Roles implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "nombre")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "rolesList")
+    private List<Funciones> funcionesList;
+    @JoinTable(name = "roles_has_vistas", joinColumns = {
+        @JoinColumn(name = "Roles_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "Vistas_id", referencedColumnName = "id")})
+    @ManyToMany
+    private List<Vistas> vistasList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol")
     private List<Usuarios> usuariosList;
 
     public Roles() {
-        usuariosList = new ArrayList<Usuarios>();
-        funcionesList = new ArrayList<Funciones>();
-        vistasList = new ArrayList<Vistas>();
     }
 
     public Roles(Integer id) {
         this.id = id;
-        usuariosList = new ArrayList<Usuarios>();
-        funcionesList = new ArrayList<Funciones>();
-        vistasList = new ArrayList<Vistas>();
     }
 
     public Roles(Integer id, String nombre) {
         this.id = id;
         this.nombre = nombre;
-        usuariosList = new ArrayList<Usuarios>();
-        funcionesList = new ArrayList<Funciones>();
-        vistasList = new ArrayList<Vistas>();
     }
 
     public Integer getId() {
@@ -105,6 +94,15 @@ public class Roles implements Serializable {
 
     public void setFuncionesList(List<Funciones> funcionesList) {
         this.funcionesList = funcionesList;
+    }
+
+    @XmlTransient
+    public List<Vistas> getVistasList() {
+        return vistasList;
+    }
+
+    public void setVistasList(List<Vistas> vistasList) {
+        this.vistasList = vistasList;
     }
 
     @XmlTransient
@@ -140,13 +138,5 @@ public class Roles implements Serializable {
     public String toString() {
         return "com.hatapp.comandas.entity.Roles[ id=" + id + " ]";
     }
-
-    @XmlTransient
-    public List<Vistas> getVistasList() {
-        return vistasList;
-    }
-
-    public void setVistasList(List<Vistas> vistasList) {
-        this.vistasList = vistasList;
-    }
-    }
+    
+}

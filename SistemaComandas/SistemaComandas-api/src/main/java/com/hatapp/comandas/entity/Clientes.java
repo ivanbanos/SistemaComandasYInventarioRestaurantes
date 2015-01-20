@@ -11,17 +11,15 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -38,24 +36,23 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Clientes.findByNombre", query = "SELECT c FROM Clientes c WHERE c.nombre = :nombre"),
     @NamedQuery(name = "Clientes.findByApellido", query = "SELECT c FROM Clientes c WHERE c.apellido = :apellido")})
 public class Clientes implements Serializable {
-    @JoinTable(name = "clientes_has_atributos", joinColumns = {
-        @JoinColumn(name = "Clientes_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "AtributosClientes_id", referencedColumnName = "id")})
-    @ManyToMany
-    private List<Atributosclientes> atributosclientesList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Size(max = 45)
     @Column(name = "nombre")
     private String nombre;
+    @Size(max = 45)
     @Column(name = "apellido")
     private String apellido;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientes", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "clientesList")
+    private List<Atributosclientes> atributosclientesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientes")
     private List<MesasHasClientes> mesasHasClientesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
     private List<Cuentas> cuentasList;
 
     public Clientes() {
@@ -140,5 +137,5 @@ public class Clientes implements Serializable {
     public String toString() {
         return "com.hatapp.comandas.entity.Clientes[ id=" + id + " ]";
     }
-
-    }
+    
+}

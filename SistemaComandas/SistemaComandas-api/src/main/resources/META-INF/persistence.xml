@@ -25,6 +25,7 @@
     <class>com.hatapp.comandas.entity.Menu</class>
     <class>com.hatapp.comandas.entity.PlatosHasIngredientes</class>
     <class>com.hatapp.comandas.entity.AcompanantesHasIngredientes</class>
+    <class>com.hatapp.comandas.entity.Unidadesmedidas</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>

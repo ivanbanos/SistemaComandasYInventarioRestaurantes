@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -17,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,16 +30,17 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Facturas.findAll", query = "SELECT f FROM Facturas f"),
     @NamedQuery(name = "Facturas.findById", query = "SELECT f FROM Facturas f WHERE f.id = :id")})
 public class Facturas implements Serializable {
-    @Lob
-    @Column(name = "factura")
-    private byte[] factura;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
+    @Lob
+    @Column(name = "factura")
+    private byte[] factura;
     @JoinColumn(name = "Cuenta", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private Cuentas cuenta;
 
     public Facturas() {
@@ -55,6 +56,14 @@ public class Facturas implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public byte[] getFactura() {
+        return factura;
+    }
+
+    public void setFactura(byte[] factura) {
+        this.factura = factura;
     }
 
     public Cuentas getCuenta() {
@@ -88,14 +97,6 @@ public class Facturas implements Serializable {
     @Override
     public String toString() {
         return "com.hatapp.comandas.entity.Facturas[ id=" + id + " ]";
-    }
-
-    public byte[] getFactura() {
-        return factura;
-    }
-
-    public void setFactura(byte[] factura) {
-        this.factura = factura;
     }
     
 }

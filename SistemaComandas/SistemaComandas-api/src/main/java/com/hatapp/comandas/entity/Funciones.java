@@ -10,7 +10,6 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +19,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -35,8 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Funciones.findById", query = "SELECT f FROM Funciones f WHERE f.id = :id"),
     @NamedQuery(name = "Funciones.findByNombre", query = "SELECT f FROM Funciones f WHERE f.nombre = :nombre")})
 public class Funciones implements Serializable {
-    @ManyToMany(mappedBy = "funcionesList")
-    private List<Roles> rolesList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,8 +43,15 @@ public class Funciones implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "nombre")
     private String nombre;
+    @JoinTable(name = "roles_has_funciones", joinColumns = {
+        @JoinColumn(name = "Funciones_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "Roles_id", referencedColumnName = "id")})
+    @ManyToMany
+    private List<Roles> rolesList;
 
     public Funciones() {
     }
@@ -108,5 +114,5 @@ public class Funciones implements Serializable {
     public String toString() {
         return "com.hatapp.comandas.entity.Funciones[ id=" + id + " ]";
     }
-
-    }
+    
+}

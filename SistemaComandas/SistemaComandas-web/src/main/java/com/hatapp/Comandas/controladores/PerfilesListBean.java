@@ -4,8 +4,7 @@
  */
 package com.hatapp.Comandas.controladores;
 
-import com.hatapp.Comandas.util.FuncionesBoolean;
-import com.hatapp.Comandas.util.VistasBoolean;
+import com.hatapp.Comandas.util.ObjectBoolean;
 import com.hatapp.comandas.entity.Funciones;
 import com.hatapp.comandas.entity.Roles;
 import com.hatapp.comandas.entity.Vistas;
@@ -29,8 +28,8 @@ public class PerfilesListBean {
     @EJB
     AdminFacade adminFacade;
     private List<Roles> lista;
-    private List<FuncionesBoolean> funcionesBooleans;
-    private List<VistasBoolean> vistasBooleans;
+    private List<ObjectBoolean> funcionesBooleans;
+    private List<ObjectBoolean> vistasBooleans;
     Roles elemento;
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
@@ -60,16 +59,16 @@ public class PerfilesListBean {
         List<Vistas> vistas = adminFacade.getAllVistas();
         for (Vistas vista : vistas) {
             if(elemento.getVistasList().contains(vista)){
-                vistasBooleans.add(new VistasBoolean(vista, true));
+                vistasBooleans.add(new ObjectBoolean(vista, true, vista.getNombre()));
             } else {
-                vistasBooleans.add(new VistasBoolean(vista, false));
+                vistasBooleans.add(new ObjectBoolean(vista, false, vista.getNombre()));
             }
         }
         for (Funciones funcion : funciones) {
             if(elemento.getFuncionesList().contains(funcion)){
-                funcionesBooleans.add(new FuncionesBoolean(funcion, true));
+                funcionesBooleans.add(new ObjectBoolean(funcion, true, funcion.getNombre()));
             } else {
-                funcionesBooleans.add(new FuncionesBoolean(funcion, false));
+                funcionesBooleans.add(new ObjectBoolean(funcion, false, funcion.getNombre()));
             }
         }
     }
@@ -90,19 +89,19 @@ public class PerfilesListBean {
         this.lista = lista;
     }
 
-    public List<FuncionesBoolean> getFuncionesBooleans() {
+    public List<ObjectBoolean> getFuncionesBooleans() {
         return funcionesBooleans;
     }
 
-    public void setFuncionesBooleans(List<FuncionesBoolean> funcionesBooleans) {
+    public void setFuncionesBooleans(List<ObjectBoolean> funcionesBooleans) {
         this.funcionesBooleans = funcionesBooleans;
     }
 
-    public List<VistasBoolean> getVistasBooleans() {
+    public List<ObjectBoolean> getVistasBooleans() {
         return vistasBooleans;
     }
 
-    public void setVistasBooleans(List<VistasBoolean> vistasBooleans) {
+    public void setVistasBooleans(List<ObjectBoolean> vistasBooleans) {
         this.vistasBooleans = vistasBooleans;
     }
 
@@ -144,14 +143,14 @@ public class PerfilesListBean {
     private void setToElementoFuncionesyVistasBoolean() {
         elemento.getFuncionesList().clear();
         elemento.getVistasList().clear();
-        for (VistasBoolean vista : vistasBooleans) {
-            if(vista.isChecked()){
-                 elemento.getVistasList().add(vista.getVista());
+        for (ObjectBoolean vista : vistasBooleans) {
+            if(vista.isSelected()){
+                 elemento.getVistasList().add(((Vistas)vista.getObject()));
             }
         }
-        for (FuncionesBoolean funcion : funcionesBooleans) {
-            if(funcion.isChecked()){
-                 elemento.getFuncionesList().add(funcion.getFuncion());
+        for (ObjectBoolean funcion : funcionesBooleans) {
+            if(funcion.isSelected()){
+                 elemento.getFuncionesList().add((Funciones)funcion.getObject());
             }
         }
     }

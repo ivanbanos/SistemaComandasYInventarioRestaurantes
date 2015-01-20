@@ -5,7 +5,9 @@
 package com.hatapp.Comandas.controladores;
 
 import com.hatapp.comandas.entity.Roles;
+import com.hatapp.comandas.entity.Unidadesmedidas;
 import com.hatapp.comandas.facade.AdminFacade;
+import com.hatapp.comandas.facade.ManagerUserFacade;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +24,8 @@ import javax.faces.bean.RequestScoped;
 public class ListasNombresBean {
     @EJB
     AdminFacade adminFacade;
+    @EJB
+    ManagerUserFacade managerUserFacade;
 
     public List<String> getRoles() {
         List<Roles> roles = adminFacade.getAllRoles();
@@ -36,14 +40,16 @@ public class ListasNombresBean {
         return Arrays.toString(EstadoMesas.values()).replaceAll("^.|.$", "").split(", ");
     }
     
-    public String[] getUnidadesMedida(){
-        return Arrays.toString(UnidadesMedida.values()).replaceAll("^.|.$", "").split(", ");
+    public List<String> getUnidadesMedida(){
+        List<Unidadesmedidas> unidadesMedidas = managerUserFacade.getAllUnidadesDeMedida();
+        List<String> nombres = new ArrayList<>();
+        for (Unidadesmedidas r : unidadesMedidas) {
+            nombres.add(r.getAbreviacion());
+        }
+        return nombres;
     }
     
 }
 enum EstadoMesas {
     ABILITADA, INABILIADA, UTILIZANDOSE
-}
-enum UnidadesMedida {
-    Kg, L
 }

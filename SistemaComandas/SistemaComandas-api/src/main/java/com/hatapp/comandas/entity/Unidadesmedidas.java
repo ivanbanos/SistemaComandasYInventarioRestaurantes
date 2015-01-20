@@ -11,13 +11,13 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -26,29 +26,33 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ivan
  */
 @Entity
-@Table(name = "inventario")
+@Table(name = "unidadesmedidas")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Inventario.findAll", query = "SELECT i FROM Inventario i"),
-    @NamedQuery(name = "Inventario.findById", query = "SELECT i FROM Inventario i WHERE i.id = :id"),
-    @NamedQuery(name = "Inventario.findByCantidad", query = "SELECT i FROM Inventario i WHERE i.cantidad = :cantidad")})
-public class Inventario implements Serializable {
+    @NamedQuery(name = "Unidadesmedidas.findAll", query = "SELECT u FROM Unidadesmedidas u"),
+    @NamedQuery(name = "Unidadesmedidas.findById", query = "SELECT u FROM Unidadesmedidas u WHERE u.id = :id"),
+    @NamedQuery(name = "Unidadesmedidas.findByUnidad", query = "SELECT u FROM Unidadesmedidas u WHERE u.unidad = :unidad"),
+    @NamedQuery(name = "Unidadesmedidas.findByAbreviacion", query = "SELECT u FROM Unidadesmedidas u WHERE u.abreviacion = :abreviacion")})
+public class Unidadesmedidas implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "cantidad")
-    private Float cantidad;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "inventarioid")
+    @Size(max = 45)
+    @Column(name = "unidad")
+    private String unidad;
+    @Size(max = 45)
+    @Column(name = "abreviacion")
+    private String abreviacion;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "unidadesMedidasid")
     private List<Ingredientes> ingredientesList;
 
-    public Inventario() {
+    public Unidadesmedidas() {
     }
 
-    public Inventario(Integer id) {
+    public Unidadesmedidas(Integer id) {
         this.id = id;
     }
 
@@ -60,12 +64,20 @@ public class Inventario implements Serializable {
         this.id = id;
     }
 
-    public Float getCantidad() {
-        return cantidad;
+    public String getUnidad() {
+        return unidad;
     }
 
-    public void setCantidad(Float cantidad) {
-        this.cantidad = cantidad;
+    public void setUnidad(String unidad) {
+        this.unidad = unidad;
+    }
+
+    public String getAbreviacion() {
+        return abreviacion;
+    }
+
+    public void setAbreviacion(String abreviacion) {
+        this.abreviacion = abreviacion;
     }
 
     @XmlTransient
@@ -87,10 +99,10 @@ public class Inventario implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Inventario)) {
+        if (!(object instanceof Unidadesmedidas)) {
             return false;
         }
-        Inventario other = (Inventario) object;
+        Unidadesmedidas other = (Unidadesmedidas) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -99,7 +111,7 @@ public class Inventario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.hatapp.comandas.entity.Inventario[ id=" + id + " ]";
+        return "com.hatapp.comandas.entity.Unidadesmedidas[ id=" + id + " ]";
     }
     
 }

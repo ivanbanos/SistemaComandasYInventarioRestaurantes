@@ -10,7 +10,6 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +17,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -33,8 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Vistas.findById", query = "SELECT v FROM Vistas v WHERE v.id = :id"),
     @NamedQuery(name = "Vistas.findByNombre", query = "SELECT v FROM Vistas v WHERE v.nombre = :nombre")})
 public class Vistas implements Serializable {
-    @ManyToMany(mappedBy = "vistasList")
-    private List<Roles> rolesList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,8 +41,12 @@ public class Vistas implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "nombre")
     private String nombre;
+    @ManyToMany(mappedBy = "vistasList")
+    private List<Roles> rolesList;
 
     public Vistas() {
     }
@@ -73,6 +76,15 @@ public class Vistas implements Serializable {
         this.nombre = nombre;
     }
 
+    @XmlTransient
+    public List<Roles> getRolesList() {
+        return rolesList;
+    }
+
+    public void setRolesList(List<Roles> rolesList) {
+        this.rolesList = rolesList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -96,15 +108,6 @@ public class Vistas implements Serializable {
     @Override
     public String toString() {
         return "com.hatapp.comandas.entity.Vistas[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Roles> getRolesList() {
-        return rolesList;
-    }
-
-    public void setRolesList(List<Roles> rolesList) {
-        this.rolesList = rolesList;
     }
     
 }

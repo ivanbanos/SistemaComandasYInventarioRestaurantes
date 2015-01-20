@@ -11,16 +11,16 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -37,26 +37,28 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuarios.findByPassword", query = "SELECT u FROM Usuarios u WHERE u.password = :password"),
     @NamedQuery(name = "Usuarios.findByEstado", query = "SELECT u FROM Usuarios u WHERE u.estado = :estado")})
 public class Usuarios implements Serializable {
-    @JoinTable(name = "usuarios_has_atributos", joinColumns = {
-        @JoinColumn(name = "Usuarios_username", referencedColumnName = "username")}, inverseJoinColumns = {
-        @JoinColumn(name = "AtributosUsuario_id", referencedColumnName = "id")})
-    @ManyToMany
-    private List<Atributosusuario> atributosusuarioList;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "username")
     private String username;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "password")
     private String password;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "estado")
     private int estado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "usuariosList")
+    private List<Atributosusuario> atributosusuarioList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     private List<Cuentas> cuentasList;
     @JoinColumn(name = "Rol", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private Roles rol;
 
     public Usuarios() {
@@ -146,5 +148,5 @@ public class Usuarios implements Serializable {
     public String toString() {
         return "com.hatapp.comandas.entity.Usuarios[ username=" + username + " ]";
     }
-
-    }
+    
+}

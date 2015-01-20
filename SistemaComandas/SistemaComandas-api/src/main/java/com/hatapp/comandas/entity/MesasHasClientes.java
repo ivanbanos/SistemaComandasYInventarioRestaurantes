@@ -9,12 +9,12 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -34,16 +34,18 @@ public class MesasHasClientes implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected MesasHasClientesPK mesasHasClientesPK;
+    @Size(max = 45)
     @Column(name = "fechaReserva")
     private String fechaReserva;
+    @Size(max = 45)
     @Column(name = "estado")
     private String estado;
-    @JoinColumn(name = "Cliente", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Clientes clientes;
     @JoinColumn(name = "Mesa", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private Mesas mesas;
+    @JoinColumn(name = "Cliente", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private Clientes clientes;
 
     public MesasHasClientes() {
     }
@@ -80,20 +82,20 @@ public class MesasHasClientes implements Serializable {
         this.estado = estado;
     }
 
-    public Clientes getClientes() {
-        return clientes;
-    }
-
-    public void setClientes(Clientes clientes) {
-        this.clientes = clientes;
-    }
-
     public Mesas getMesas() {
         return mesas;
     }
 
     public void setMesas(Mesas mesas) {
         this.mesas = mesas;
+    }
+
+    public Clientes getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(Clientes clientes) {
+        this.clientes = clientes;
     }
 
     @Override

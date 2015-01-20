@@ -10,7 +10,6 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +18,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -36,25 +37,29 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Fotos.findByFormato", query = "SELECT f FROM Fotos f WHERE f.formato = :formato"),
     @NamedQuery(name = "Fotos.findByUrl", query = "SELECT f FROM Fotos f WHERE f.url = :url")})
 public class Fotos implements Serializable {
-    @Lob
-    @Column(name = "imagen")
-    private byte[] imagen;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Lob
+    @Column(name = "imagen")
+    private byte[] imagen;
+    @Size(max = 45)
     @Column(name = "mime")
     private String mime;
+    @Size(max = 45)
     @Column(name = "formato")
     private String formato;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "url")
     private String url;
-    @OneToMany(mappedBy = "foto", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "foto")
     private List<Platos> platosList;
-    @OneToMany(mappedBy = "foto", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "foto")
     private List<Acompanantes> acompanantesList;
 
     public Fotos() {
@@ -75,6 +80,14 @@ public class Fotos implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public byte[] getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
     }
 
     public String getMime() {
@@ -142,14 +155,6 @@ public class Fotos implements Serializable {
     @Override
     public String toString() {
         return "com.hatapp.comandas.entity.Fotos[ id=" + id + " ]";
-    }
-
-    public byte[] getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(byte[] imagen) {
-        this.imagen = imagen;
     }
     
 }
