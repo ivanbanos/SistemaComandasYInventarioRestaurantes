@@ -37,13 +37,13 @@
                                         <h:outputText value="#{element.nombre}" />
                                     </p:column>
 
-                                    <p:column headerText="#{label['unidadmedida']}" sortBy="#{element.unidadMedida}" filterBy="#{element.unidadMedida}" filterMatchMode="in" >
+                                    <p:column headerText="#{label['unidadmedida']}" sortBy="#{element.unidadesMedidasid.abreviacion}" filterBy="#{element.unidadesMedidasid.abreviacion}" filterMatchMode="in" >
                                         <f:facet name="filter">
                                             <p:selectCheckboxMenu label="#{label['unidadesmedida']}" onchange="PF('detailsTable').filter()" >
                                                 <f:selectItems value="#{listasNombresBean.unidadesMedida}" />
                                             </p:selectCheckboxMenu>
                                         </f:facet>
-                                        <h:outputText value="#{element.unidadMedida}" />
+                                        <h:outputText value="#{element.unidadesMedidasid.abreviacion}" />
                                     </p:column>
 
                                     <p:column>
@@ -89,7 +89,7 @@
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" >#{label['unidadmedida']}</label>
                                         <div class="col-md-9">
-                                            <p:selectOneMenu value="#{ingredientesBean.elemento.unidadMedida}"  required="true">
+                                            <p:selectOneMenu value="#{ingredientesBean.elemento.unidadesMedidasid.id}"  >
                                                 <f:selectItem itemLabel="Select One" itemValue="" />
                                                 <f:selectItems value="#{listasNombresBean.unidadesMedida}" var="var" itemLabel="#{var}" itemValue="#{var}"/>  
                                             </p:selectOneMenu>
@@ -130,7 +130,7 @@
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" >#{label['unidadmedida']}</label>
                                         <div class="col-md-9">
-                                            <p:selectOneMenu value="#{ingredientesBean.elemento.unidadMedida}"  required="true">
+                                            <p:selectOneMenu value="#{ingredientesBean.elemento.unidadesMedidasid.id}"  >
                                                 <f:selectItem itemLabel="Select One" itemValue="" />
                                                 <f:selectItems value="#{listasNombresBean.unidadesMedida}" var="var" itemLabel="#{var}" itemValue="#{var}"/>  
                                             </p:selectOneMenu>

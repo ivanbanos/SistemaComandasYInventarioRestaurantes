@@ -6,6 +6,7 @@ package com.hatapp.Comandas.facadeImpl;
 
 import com.hatapp.comandas.entity.Funciones;
 import com.hatapp.comandas.entity.Roles;
+import com.hatapp.comandas.entity.Unidadesmedidas;
 import com.hatapp.comandas.entity.Usuarios;
 import com.hatapp.comandas.entity.Vistas;
 import com.hatapp.comandas.facade.AdminFacade;
@@ -26,6 +27,8 @@ public class AdminFacadeImpl implements AdminFacade {
     RolesFacade rolesFacade;
     @EJB
     FuncionesFacade funcionesFacade;
+    @EJB
+    UnidadesmedidasFacade unidadesmedidasFacade;
     @EJB
     VistasFacade vistasFacade;
 
@@ -77,6 +80,21 @@ public class AdminFacadeImpl implements AdminFacade {
     @Override
     public void borrarRol(Roles elemento) {
         rolesFacade.remove(elemento);
+    }
+
+    @Override
+    public void crearUnidadesmedidas(Unidadesmedidas elemento) {
+        unidadesmedidasFacade.create(elemento);
+    }
+
+    @Override
+    public void editarUnidadesmedidas(Unidadesmedidas elemento) {
+        unidadesmedidasFacade.edit(elemento);
+    }
+
+    @Override
+    public void borrarUnidadesmedidas(Unidadesmedidas elemento) {
+        unidadesmedidasFacade.remove(elemento);
     }
 
     

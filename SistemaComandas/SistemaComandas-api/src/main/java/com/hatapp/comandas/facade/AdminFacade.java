@@ -6,6 +6,7 @@ package com.hatapp.comandas.facade;
 
 import com.hatapp.comandas.entity.Funciones;
 import com.hatapp.comandas.entity.Roles;
+import com.hatapp.comandas.entity.Unidadesmedidas;
 import com.hatapp.comandas.entity.Usuarios;
 import com.hatapp.comandas.entity.Vistas;
 import java.util.List;
@@ -35,5 +36,11 @@ public interface AdminFacade {
     public void editarRol(Roles elemento);
 
     public void borrarRol(Roles elemento);
+
+    public void crearUnidadesmedidas(Unidadesmedidas elemento);
+
+    public void editarUnidadesmedidas(Unidadesmedidas elemento);
+
+    public void borrarUnidadesmedidas(Unidadesmedidas elemento);
     
 }

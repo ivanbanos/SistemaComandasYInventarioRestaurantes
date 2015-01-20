@@ -5,6 +5,8 @@
 package com.hatapp.Comandas.controladores;
 
 import com.hatapp.comandas.entity.Ingredientes;
+import com.hatapp.comandas.entity.Inventario;
+import com.hatapp.comandas.entity.Unidadesmedidas;
 import com.hatapp.comandas.facade.ManagerUserFacade;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -27,6 +29,7 @@ public class IngredientesBean {
     Ingredientes elemento;
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
+    private List<Unidadesmedidas> unidadesmedidas;
 
     public IngredientesBean() {
     }
@@ -37,6 +40,9 @@ public class IngredientesBean {
         sessionBean.perfilMatch("Ingredientes");
         lista = managerUserFacade.getAllIngredientes();
         elemento = new Ingredientes();
+        elemento.setUnidadesMedidasid(new Unidadesmedidas());
+        
+        unidadesmedidas = managerUserFacade.getAllUnidadesDeMedida();
     }
 
     public void setSessionBean(SessionBean sessionBean) {
@@ -71,17 +77,28 @@ public class IngredientesBean {
         managerUserFacade.crearIngredientes(elemento);
         lista = managerUserFacade.getAllIngredientes();
         elemento = new Ingredientes();
+        elemento.setUnidadesMedidasid(new Unidadesmedidas());
     }
     
     public void editar(){
         managerUserFacade.editarIngredientes(elemento);
         lista = managerUserFacade.getAllIngredientes();
         elemento = new Ingredientes();
+        elemento.setUnidadesMedidasid(new Unidadesmedidas());
     }
     
     public void borrar(){
         managerUserFacade.borrarIngredientes(elemento);
         lista = managerUserFacade.getAllIngredientes();
         elemento = new Ingredientes();
+        elemento.setUnidadesMedidasid(new Unidadesmedidas());
+    }
+
+    public List<Unidadesmedidas> getUnidadesmedidas() {
+        return unidadesmedidas;
+    }
+
+    public void setUnidadesmedidas(List<Unidadesmedidas> unidadesmedidas) {
+        this.unidadesmedidas = unidadesmedidas;
     }
 }

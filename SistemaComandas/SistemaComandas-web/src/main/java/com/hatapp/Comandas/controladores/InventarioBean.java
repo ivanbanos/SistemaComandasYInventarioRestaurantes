@@ -45,7 +45,7 @@ public class InventarioBean {
     @PostConstruct
     public void init() {
         sessionBean.checkUsuarioConectado();
-        sessionBean.perfilMatch("inventario");
+        sessionBean.perfilMatch("Inventario");
         lista = managerUserFacade.getAllIngredientes();
         elemento = new Ingredientes();
         unidadesmedidas = managerUserFacade.getAllUnidadesDeMedida();
@@ -65,24 +65,6 @@ public class InventarioBean {
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
-    }
-
-    public void crear() {
-        managerUserFacade.crearIngredientes(elemento);
-        lista = managerUserFacade.getAllIngredientes();
-        elemento = new Ingredientes();
-    }
-
-    public void editar() {
-        managerUserFacade.editarIngredientes(elemento);
-        lista = managerUserFacade.getAllIngredientes();
-        elemento = new Ingredientes();
-    }
-
-    public void borrar() {
-        managerUserFacade.borrarIngredientes(elemento);
-        lista = managerUserFacade.getAllIngredientes();
-        elemento = new Ingredientes();
     }
 
     public Ingredientes getElemento() {

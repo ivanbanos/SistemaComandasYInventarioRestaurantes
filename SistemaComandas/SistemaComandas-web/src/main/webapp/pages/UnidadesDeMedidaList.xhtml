@@ -18,11 +18,11 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <div>
-                                    <h3 class="panel-title">#{label['roles']}</h3>
+                                    <h3 class="panel-title">#{label['unidadesmedidas']}</h3>
                                 </div>
                             </div>
                             <div class="panel-body">
-                                <p:dataTable id="detailsTable" var="element" value="#{perfilesListBean.lista}"  
+                                <p:dataTable id="detailsTable" var="element" value="#{unidadesDeMediaBean.lista}"  
                                              emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable"
                                              rows="10" rowsPerPageTemplate="5,10,15,20" paginator="true"
                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
@@ -30,24 +30,25 @@
                                     <f:facet name="header">
                                         <p:commandButton id="addButton" oncomplete="PF('addDialog').show();" 
                                                          value="#{label['agregar']}" icon="ui-icon-plusthick" title="#{label['agregar']}" 
-                                                         rendered="#{sessionBean.rolMatch(&quot;agregarRol&quot;)}"/>  
+                                                         rendered="#{sessionBean.rolMatch(&quot;agregarUnidadesMedida&quot;)}"/>  
                                     </f:facet>
 
-                                    <p:column headerText="#{label['nombre']}" sortBy="#{element.nombre}" filterBy="#{element.nombre}" filterMatchMode="contains" >
-                                        <h:outputText value="#{element.nombre}" />
+                                    <p:column headerText="#{label['nombre']}" sortBy="#{element.unidad}" filterBy="#{element.unidad}" filterMatchMode="contains" >
+                                        <h:outputText value="#{element.unidad}" />
                                     </p:column>
+
 
                                     <p:column>
                                         <p:commandButton id="editButtonCasinos" update=":#{p:component('editDialog')}" 
                                                          oncomplete="PF('editDialog').show()" icon="ui-icon-pencil" 
                                                          title="#{label['editar']}" 
-                                                         rendered="#{sessionBean.rolMatch(&quot;editarRol&quot;)}">  
-                                            <f:setPropertyActionListener value="#{element}" target="#{perfilesListBean.elemento}" />  
+                                                         rendered="#{sessionBean.rolMatch(&quot;editarUnidadesMedida&quot;)}">  
+                                            <f:setPropertyActionListener value="#{element}" target="#{unidadesDeMediaBean.elemento}" />  
                                         </p:commandButton>
                                         <p:commandButton id="deleteButtonCasinos" oncomplete="PF('deleteDialog').show();" 
                                                          icon="ui-icon-trash" title="#{label['borrar']}"  update=":#{p:component('deleteDialog')}"
-                                                         rendered="#{sessionBean.rolMatch(&quot;eliminarRol&quot;)}">
-                                            <f:setPropertyActionListener value="#{element}" target="#{perfilesListBean.elemento}" /> 
+                                                         rendered="#{sessionBean.rolMatch(&quot;eliminarUnidadesMedida&quot;)}">
+                                            <f:setPropertyActionListener value="#{element}" target="#{unidadesDeMediaBean.elemento}" /> 
                                         </p:commandButton> 
                                     </p:column>
 
@@ -68,37 +69,28 @@
                             <div class="row">
                                 <div class="control-group">
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label" >#{label['nombre']}</label>
+                                        <label class="col-md-3 control-label" >#{label['unidad']}</label>
                                         <div class="col-md-9">
-                                            <h:inputText id="nombreusuario" value="#{perfilesListBean.elemento.nombre}" required="true" class="form-control"/>
+                                            <h:inputText id="unidad" value="#{unidadesDeMediaBean.elemento.unidad}" required="true" class="form-control"/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <c:forEach var="vistas" items="#{perfilesListBean.vistasBooleans}">
-                                <div class="row clearfix">
-                                    <div class="form-group col-md-12">
-                                        <label class="col-md-3 control-label" >#{vistas.label}</label>
+                            <div class="row">
+                                <div class="control-group">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" >#{label['abreviacion']}</label>
                                         <div class="col-md-9">
-                                            <h:selectBooleanCheckbox value="#{vistas.selected}" />
+                                            <h:inputText id="abreviacion" value="#{unidadesDeMediaBean.elemento.abreviacion}" required="true" class="form-control"/>
                                         </div>
                                     </div>
                                 </div>
-                            </c:forEach>
-                            <c:forEach var="funciones" items="#{perfilesListBean.funcionesBooleans}">
-                                <div class="row clearfix">
-                                    <div class="form-group col-md-12">
-                                        <label class="col-md-3 control-label" >#{funciones.label}</label>
-                                        <div class="col-md-9">
-                                            <h:selectBooleanCheckbox value="#{funciones.selected}" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:forEach>
+                            </div>
+                            
                         </fieldset>
                     </div>
                     <div class="panel-footer text-right"> 
-                        <p:commandButton value="Confirmar" actionListener="#{perfilesListBean.crear()}" 
+                        <p:commandButton value="Confirmar" actionListener="#{unidadesDeMediaBean.crear()}" 
                                          oncomplete="PF('addDialog').hide()" icon="ui-icon-check" 
                                          update=":#{p:component('detailsTable')} :#{p:component('addDialog')} :#{p:component('messages')}" style="margin:0" />   
                         <p:button value="Cerrar" onclick="PF('addDialog').hide()" icon="ui-icon-closethick"/> 
@@ -116,37 +108,27 @@
                             <div class="row">
                                 <div class="control-group">
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label" >#{label['nombreusuario']}</label>
+                                        <label class="col-md-3 control-label" >#{label['unidad']}</label>
                                         <div class="col-md-9">
-                                            <h:inputText id="nombreusuario" value="#{perfilesListBean.elemento.nombre}" required="true" class="form-control"/>
+                                            <h:inputText id="unidad" value="#{unidadesDeMediaBean.elemento.unidad}" required="true" class="form-control"/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <c:forEach var="vistas" items="#{perfilesListBean.vistasBooleans}">
-                                <div class="row clearfix">
-                                    <div class="form-group col-md-12">
-                                        <label class="col-md-3 control-label" >#{vistas.label}</label>
+                            <div class="row">
+                                <div class="control-group">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" >#{label['abreviacion']}</label>
                                         <div class="col-md-9">
-                                            <h:selectBooleanCheckbox value="#{vistas.selected}" />
+                                            <h:inputText id="abreviacion" value="#{unidadesDeMediaBean.elemento.abreviacion}" required="true" class="form-control"/>
                                         </div>
                                     </div>
                                 </div>
-                            </c:forEach>
-                            <c:forEach var="funciones" items="#{perfilesListBean.funcionesBooleans}">
-                                <div class="row clearfix">
-                                    <div class="form-group col-md-12">
-                                        <label class="col-md-3 control-label" >#{funciones.label}</label>
-                                        <div class="col-md-9">
-                                            <h:selectBooleanCheckbox value="#{funciones.selected}" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:forEach>
+                            </div>
                         </fieldset>
                     </div>
                     <div class="panel-footer text-right"> 
-                        <p:commandButton value="Confirmar" action="#{perfilesListBean.editar()}" 
+                        <p:commandButton value="Confirmar" action="#{unidadesDeMediaBean.editar()}" 
                                          oncomplete="PF('editDialog').hide()" icon="ui-icon-check"
                                          update=":#{p:component('detailsTable')} :#{p:component('messages')}" style="margin:0"/>    
                         <p:button value="Cerrar" onclick="PF('editDialog').hide()" icon="ui-icon-closethick"/> 
@@ -155,11 +137,11 @@
             </p:dialog>
         </h:form>
         <h:form>
-            <p:confirmDialog id="deleteDialog" message="Quiere borrar el rol #{perfilesListBean.elemento.nombre}?"  
+            <p:confirmDialog id="deleteDialog" message="Quiere borrar el ingrediente #{unidadesDeMediaBean.elemento.unidad}?"  
                              header="#{label['borrar']}" severity="alert" widgetVar="deleteDialog" closable="false">  
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" oncomplete="PF('deleteDialog').hide()"  
-                                 action="#{perfilesListBean.borrar()}" update=":#{p:component('detailsTable')} :#{p:component('messages')}"/>  
+                                 action="#{unidadesDeMediaBean.borrar()}" update=":#{p:component('detailsTable')} :#{p:component('messages')}"/>  
                 <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('deleteDialog').hide()" type="button" />   
 
             </p:confirmDialog> 

@@ -29,6 +29,11 @@
                             <h:link outcome="/pages/platosList.xhtml" class="btn btn-primary btn-lg">
                                 <i class="fa fa-cutlery fa-5x"></i> <br/>#{label['platos']}</h:link>
                         </c:if>
+                        <c:if test="#{sessionBean.perfilMatch(&quot;UnidadesMedida&quot;)}">
+                            
+                            <h:link outcome="/pages/UnidadesDeMedidaList.xhtml" class="btn btn-primary btn-lg">
+                                <i class="fa fa-cutlery fa-5x"></i> <br/>#{label['unidadesdemedida']}</h:link>
+                        </c:if>
                     </div>
                 </div>
             </div>
