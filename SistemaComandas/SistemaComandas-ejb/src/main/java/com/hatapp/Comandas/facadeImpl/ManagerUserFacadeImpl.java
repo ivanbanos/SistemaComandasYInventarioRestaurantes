@@ -10,6 +10,7 @@ import com.hatapp.comandas.entity.Ingredientes;
 import com.hatapp.comandas.entity.Inventario;
 import com.hatapp.comandas.entity.Mesas;
 import com.hatapp.comandas.entity.Platos;
+import com.hatapp.comandas.entity.Unidadesmedidas;
 import com.hatapp.comandas.facade.ManagerUserFacade;
 import java.util.List;
 import javax.ejb.EJB;
@@ -34,6 +35,8 @@ public class ManagerUserFacadeImpl implements ManagerUserFacade{
     AcompanantesFacade acompanantesFacade;
     @EJB
     FotosFacade fotosFacade;
+    @EJB
+    UnidadesmedidasFacade unidadesmedidasFacade;
 
     @Override
     public List<Mesas> getAllMesas() {
@@ -112,6 +115,11 @@ public class ManagerUserFacadeImpl implements ManagerUserFacade{
     @Override
     public void crearPlato(Platos elemento) {
         platosFacade.create(elemento);
+    }
+
+    @Override
+    public List<Unidadesmedidas> getAllUnidadesDeMedida() {
+        return unidadesmedidasFacade.findAll();
     }
     
 }
