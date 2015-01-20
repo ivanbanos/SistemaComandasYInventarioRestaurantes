@@ -91,7 +91,7 @@
                                         <div class="col-md-9">
                                             <p:selectOneMenu value="#{ingredientesBean.elemento.unidadesMedidasid.id}"  >
                                                 <f:selectItem itemLabel="Select One" itemValue="" />
-                                                <f:selectItems value="#{listasNombresBean.unidadesMedida}" var="var" itemLabel="#{var}" itemValue="#{var}"/>  
+                                                <f:selectItems value="#{ingredientesBean.unidadesmedidas}" var="var" itemLabel="#{var.abreviacion}" itemValue="#{var.id}"/>  
                                             </p:selectOneMenu>
                                         </div>
                                     </div>
@@ -132,7 +132,7 @@
                                         <div class="col-md-9">
                                             <p:selectOneMenu value="#{ingredientesBean.elemento.unidadesMedidasid.id}"  >
                                                 <f:selectItem itemLabel="Select One" itemValue="" />
-                                                <f:selectItems value="#{listasNombresBean.unidadesMedida}" var="var" itemLabel="#{var}" itemValue="#{var}"/>  
+                                                <f:selectItems value="#{ingredientesBean.unidadesmedidas}" var="var" itemLabel="#{var.abreviacion}" itemValue="#{var.id}"/>  
                                             </p:selectOneMenu>
                                         </div>
                                     </div>

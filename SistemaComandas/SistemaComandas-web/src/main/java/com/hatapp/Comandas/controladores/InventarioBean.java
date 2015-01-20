@@ -5,6 +5,7 @@
  */
 package com.hatapp.Comandas.controladores;
 
+import com.hatapp.Comandas.util.FacesUtil;
 import com.hatapp.comandas.entity.Ingredientes;
 import com.hatapp.comandas.entity.Unidadesmedidas;
 import com.hatapp.comandas.facade.ManagerUserFacade;
@@ -14,6 +15,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -83,4 +85,11 @@ public class InventarioBean {
         this.lista = lista;
     }
 
+    public void onRowEdit(RowEditEvent event) {
+        managerUserFacade.editarInventario(((Ingredientes)event.getObject()).getInventarioid());
+        FacesUtil.addInfoMessage("Inventario Cambiado", "Cantidad de "+((Ingredientes)event.getObject()).getNombre()+" Cambiada.");
+    }
+
+    public void onRowCancel(RowEditEvent event) {
+    }
 }

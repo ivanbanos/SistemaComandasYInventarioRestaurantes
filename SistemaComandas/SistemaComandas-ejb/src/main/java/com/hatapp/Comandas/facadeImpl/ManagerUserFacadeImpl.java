@@ -121,5 +121,10 @@ public class ManagerUserFacadeImpl implements ManagerUserFacade{
     public List<Unidadesmedidas> getAllUnidadesDeMedida() {
         return unidadesmedidasFacade.findAll();
     }
+
+    @Override
+    public void editarInventario(Inventario inventarioid) {
+        inventarioFacade.edit(inventarioid);
+    }
     
 }

@@ -24,17 +24,17 @@
                             <div class="panel-body">
                                 <p:dataTable id="detailsTable" var="element" value="#{inventarioBean.lista}"  
                                              emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable"
-                                             rows="10" rowsPerPageTemplate="5,10,15,20" paginator="true"
+                                             rows="10" rowsPerPageTemplate="5,10,15,20" paginator="true" editable="true"
                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
-                                    <f:facet name="header">
-                                        <p:commandButton id="addButton" oncomplete="PF('addDialog').show();" 
-                                                         value="#{label['agregar']}" icon="ui-icon-plusthick" title="#{label['agregar']}" 
-                                                         rendered="#{sessionBean.rolMatch(&quot;agregarIngredientes&quot;)}"/>  
-                                    </f:facet>
+                                    <p:ajax event="rowEdit" listener="#{inventarioBean.onRowEdit}" update=":#{p:component('messages')}"/>
+                                    <p:ajax event="rowEditCancel" listener="#{inventarioBean.onRowCancel}" />
 
                                     <p:column headerText="#{label['nombre']}" sortBy="#{element.nombre}" filterBy="#{element.nombre}" filterMatchMode="contains" >
-                                        <h:outputText value="#{element.nombre}" />
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{element.nombre}" /></f:facet>
+                                            <f:facet name="input"><h:outputText value="#{element.nombre}"/></f:facet>
+                                        </p:cellEditor>
                                     </p:column>
 
                                     <p:column headerText="#{label['unidadmedida']}" sortBy="#{element.unidadesMedidasid.unidad}" filterBy="#{element.unidadesMedidasid.unidad}" filterMatchMode="in" >
@@ -43,21 +43,21 @@
                                                 <f:selectItems value="#{listasNombresBean.unidadesMedida}" />
                                             </p:selectCheckboxMenu>
                                         </f:facet>
-                                        <h:outputText value="#{element.unidadesMedidasid.unidad}" />
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{element.unidadesMedidasid.unidad}" /></f:facet>
+                                            <f:facet name="input"><h:outputText value="#{element.unidadesMedidasid.unidad}"/></f:facet>
+                                        </p:cellEditor>
                                     </p:column>
 
-                                    <p:column>
-                                        <p:commandButton id="editButtonCasinos" update=":#{p:component('editDialog')}" 
-                                                         oncomplete="PF('editDialog').show()" icon="ui-icon-pencil" 
-                                                         title="#{label['editar']}" 
-                                                         rendered="#{sessionBean.rolMatch(&quot;editarIngredientes&quot;)}">  
-                                            <f:setPropertyActionListener value="#{element}" target="#{inventarioBean.elemento}" />  
-                                        </p:commandButton>
-                                        <p:commandButton id="deleteButtonCasinos" oncomplete="PF('deleteDialog').show();" 
-                                                         icon="ui-icon-trash" title="#{label['borrar']}"  update=":#{p:component('deleteDialog')}"
-                                                         rendered="#{sessionBean.rolMatch(&quot;eliminarIngredientes&quot;)}">
-                                            <f:setPropertyActionListener value="#{element}" target="#{inventarioBean.elemento}" /> 
-                                        </p:commandButton> 
+                                    <p:column headerText="#{label['cantidad']}" sortBy="#{element.nombre}" filterBy="#{element.nombre}" filterMatchMode="contains" >
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{element.inventarioid.cantidad}" /></f:facet>
+                                            <f:facet name="input"><p:spinner  stepFactor="0.25" value="#{element.inventarioid.cantidad}"/></f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+
+                                    <p:column >
+                                        <p:rowEditor />
                                     </p:column>
 
                                 </p:dataTable>
@@ -67,98 +67,5 @@
                 </div>
             </div>
         </h:form>
-
-        <h:form>
-            <p:dialog id="addDialog" header="#{label['agregar']}" widgetVar="addDialog" modal="true" closable="false" resizable="false">
-                <div class="panel panel-primary">
-
-                    <div class="panel-body">
-                        <fieldset>
-                            <div class="row">
-                                <div class="control-group">
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" >#{label['nombre']}</label>
-                                        <div class="col-md-9">
-                                            <h:inputText id="nombreusuario" value="#{inventarioBean.elemento.nombre}" required="true" class="form-control"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="control-group">
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" >#{label['unidadmedida']}</label>
-                                        <div class="col-md-9">
-                                            <p:selectOneMenu value="#{inventarioBean.elemento.unidadesMedidasid}"  required="true">
-                                                <f:selectItem itemLabel="Select One" itemValue="" />
-                                                <f:selectItems value="#{inventarioBean.unidadesmedidas}" var="var" itemLabel="#{var.unidad}" itemValue="#{var.id}"/>  
-                                            </p:selectOneMenu>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div class="panel-footer text-right"> 
-                        <p:commandButton value="Confirmar" actionListener="#{inventarioBean.crear()}" 
-                                         oncomplete="PF('addDialog').hide()" icon="ui-icon-check" 
-                                         update=":#{p:component('detailsTable')} :#{p:component('addDialog')} :#{p:component('messages')}" style="margin:0" />   
-                        <p:button value="Cerrar" onclick="PF('addDialog').hide()" icon="ui-icon-closethick"/> 
-                    </div>
-                </div>
-            </p:dialog> 
-        </h:form>
-
-        <h:form>
-            <p:dialog id="editDialog" header="#{label['editar']}" widgetVar="editDialog" modal="true" closable="false" resizable="false">  
-                <div class="panel panel-primary">
-
-                    <div class="panel-body">
-                        <fieldset>
-                            <div class="row">
-                                <div class="control-group">
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" >#{label['nombreusuario']}</label>
-                                        <div class="col-md-9">
-                                            <h:inputText id="nombreusuario" value="#{inventarioBean.elemento.nombre}" required="true" class="form-control"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="control-group">
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" >#{label['unidadmedida']}</label>
-                                        <div class="col-md-9">
-                                            <p:selectOneMenu value="#{inventarioBean.elemento.unidadesMedidasid}"  required="true">
-                                                <f:selectItem itemLabel="Select One" itemValue="" />
-                                                <f:selectItems value="#{inventarioBean.unidadesmedidas}" var="var" itemLabel="#{var.unidad}" itemValue="#{var.id}"/>  
-                                            </p:selectOneMenu>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div class="panel-footer text-right"> 
-                        <p:commandButton value="Confirmar" action="#{inventarioBean.editar()}" 
-                                         oncomplete="PF('editDialog').hide()" icon="ui-icon-check"
-                                         update=":#{p:component('detailsTable')} :#{p:component('messages')}" style="margin:0"/>    
-                        <p:button value="Cerrar" onclick="PF('editDialog').hide()" icon="ui-icon-closethick"/> 
-                    </div>
-                </div>
-            </p:dialog>
-        </h:form>
-        <h:form>
-            <p:confirmDialog id="deleteDialog" message="Quiere borrar el ingrediente #{inventarioBean.elemento.nombre}?"  
-                             header="#{label['borrar']}" severity="alert" widgetVar="deleteDialog" closable="false">  
-
-                <p:commandButton id="confirm" value="#{label['aceptar']}" oncomplete="PF('deleteDialog').hide()"  
-                                 action="#{inventarioBean.borrar()}" update=":#{p:component('detailsTable')} :#{p:component('messages')}"/>  
-                <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('deleteDialog').hide()" type="button" />   
-
-            </p:confirmDialog> 
-        </h:form>
-
     </ui:define>            
 </ui:composition>

@@ -7,6 +7,7 @@ package com.hatapp.comandas.facade;
 import com.hatapp.comandas.entity.Acompanantes;
 import com.hatapp.comandas.entity.Fotos;
 import com.hatapp.comandas.entity.Ingredientes;
+import com.hatapp.comandas.entity.Inventario;
 import com.hatapp.comandas.entity.Mesas;
 import com.hatapp.comandas.entity.Platos;
 import com.hatapp.comandas.entity.Unidadesmedidas;
@@ -49,6 +50,8 @@ public interface ManagerUserFacade {
     public void crearPlato(Platos elemento);
 
     public List<Unidadesmedidas> getAllUnidadesDeMedida();
+
+    public void editarInventario(Inventario inventarioid);
 
     
 }
