@@ -32,7 +32,7 @@ public class ImageServlet extends HttpServlet {
 
         // Define base path somehow. You can define it as init-param of the servlet.
         StringBuilder sb = new StringBuilder();
-        sb.append(System.getProperty("APP_CONF")).append(System.getProperty("file.separator")).append("images").append(System.getProperty("file.separator")).append("inversiones");
+        sb.append(System.getProperty("APP_RESOURCES")).append(System.getProperty("file.separator")).append("imagenes").append(System.getProperty("file.separator")).append("restaurante");
         
         this.imagePath = sb.toString();
 

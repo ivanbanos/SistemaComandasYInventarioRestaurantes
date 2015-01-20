@@ -18,45 +18,45 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <div>
-                                    <h3 class="panel-title">#{label['usuarios']}</h3>
+                                    <h3 class="panel-title">#{label['ingredientes']}</h3>
                                 </div>
                             </div>
                             <div class="panel-body">
-                                <p:dataTable id="detailsTable" var="element" value="#{usuariosListBean.lista}"  
-                                             emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTableUsuarios"
+                                <p:dataTable id="detailsTable" var="element" value="#{ingredientesBean.lista}"  
+                                             emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable"
                                              rows="10" rowsPerPageTemplate="5,10,15,20" paginator="true"
                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
                                     <f:facet name="header">
                                         <p:commandButton id="addButton" oncomplete="PF('addDialog').show();" 
                                                          value="#{label['agregar']}" icon="ui-icon-plusthick" title="#{label['agregar']}" 
-                                                         rendered="#{sessionBean.rolMatch(&quot;agregarUsuario&quot;)}"/>  
+                                                         rendered="#{sessionBean.rolMatch(&quot;agregarIngredientes&quot;)}"/>  
                                     </f:facet>
 
-                                    <p:column headerText="#{label['nombreusuario']}" sortBy="#{element.username}" filterBy="#{element.username}" filterMatchMode="contains" >
-                                        <h:outputText value="#{element.username}" />
+                                    <p:column headerText="#{label['nombre']}" sortBy="#{element.nombre}" filterBy="#{element.nombre}" filterMatchMode="contains" >
+                                        <h:outputText value="#{element.nombre}" />
                                     </p:column>
 
-                                    <p:column headerText="#{label['rol']}" sortBy="#{element.rol.nombre}" filterBy="#{element.rol.nombre}" filterMatchMode="in" >
+                                    <p:column headerText="#{label['unidadmedida']}" sortBy="#{element.unidadMedida}" filterBy="#{element.unidadMedida}" filterMatchMode="in" >
                                         <f:facet name="filter">
-                                            <p:selectCheckboxMenu label="#{label['roles']}" onchange="PF('detailsTable').filter()" >
-                                                <f:selectItems value="#{listasNombresBean.roles}" />
+                                            <p:selectCheckboxMenu label="#{label['unidadesmedida']}" onchange="PF('detailsTable').filter()" >
+                                                <f:selectItems value="#{listasNombresBean.unidadesMedida}" />
                                             </p:selectCheckboxMenu>
                                         </f:facet>
-                                        <h:outputText value="#{element.rol.nombre}" />
+                                        <h:outputText value="#{element.unidadMedida}" />
                                     </p:column>
 
                                     <p:column>
                                         <p:commandButton id="editButtonCasinos" update=":#{p:component('editDialog')}" 
                                                          oncomplete="PF('editDialog').show()" icon="ui-icon-pencil" 
                                                          title="#{label['editar']}" 
-                                                         rendered="#{sessionBean.rolMatch(&quot;editarUsuario&quot;)}">  
-                                            <f:setPropertyActionListener value="#{element}" target="#{usuariosListBean.elemento}" />  
+                                                         rendered="#{sessionBean.rolMatch(&quot;editarIngredientes&quot;)}">  
+                                            <f:setPropertyActionListener value="#{element}" target="#{ingredientesBean.elemento}" />  
                                         </p:commandButton>
                                         <p:commandButton id="deleteButtonCasinos" oncomplete="PF('deleteDialog').show();" 
                                                          icon="ui-icon-trash" title="#{label['borrar']}"  update=":#{p:component('deleteDialog')}"
-                                                         rendered="#{sessionBean.rolMatch(&quot;eliminarUsuario&quot;)}">
-                                            <f:setPropertyActionListener value="#{element}" target="#{usuariosListBean.elemento}" /> 
+                                                         rendered="#{sessionBean.rolMatch(&quot;eliminarIngredientes&quot;)}">
+                                            <f:setPropertyActionListener value="#{element}" target="#{ingredientesBean.elemento}" /> 
                                         </p:commandButton> 
                                     </p:column>
 
@@ -77,9 +77,9 @@
                             <div class="row">
                                 <div class="control-group">
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label" >#{label['nombreusuario']}</label>
+                                        <label class="col-md-3 control-label" >#{label['nombre']}</label>
                                         <div class="col-md-9">
-                                            <h:inputText id="nombreusuario" value="#{usuariosListBean.elemento.username}" required="true" class="form-control"/>
+                                            <h:inputText id="nombreusuario" value="#{ingredientesBean.elemento.nombre}" required="true" class="form-control"/>
                                         </div>
                                     </div>
                                 </div>
@@ -87,41 +87,20 @@
                             <div class="row">
                                 <div class="control-group">
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label" >#{label['contrasena']}</label>
+                                        <label class="col-md-3 control-label" >#{label['unidadmedida']}</label>
                                         <div class="col-md-9">
-                                            <h:inputSecret id="pwd1Usuarios" value="#{usuariosListBean.elemento.password}" required="true" class="form-control"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="control-group">
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" >#{label['repetir']}</label>
-                                        <div class="col-md-9">
-                                            <h:inputSecret id="pwd2Usuarios" value="#{usuariosListBean.elemento.password}" required="true" class="form-control"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="control-group">
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" >#{label['rol']}</label>
-                                        <div class="col-md-9">
-                                            <p:selectOneMenu id="perfilUsuarios" value="#{usuariosListBean.elemento.rol.id}"  required="true">
+                                            <p:selectOneMenu value="#{ingredientesBean.elemento.unidadMedida}"  required="true">
                                                 <f:selectItem itemLabel="Select One" itemValue="" />
-                                                <f:selectItems value="#{usuariosListBean.perfiles}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.id}"/>  
+                                                <f:selectItems value="#{listasNombresBean.unidadesMedida}" var="var" itemLabel="#{var}" itemValue="#{var}"/>  
                                             </p:selectOneMenu>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </fieldset>
                     </div>
                     <div class="panel-footer text-right"> 
-                        <p:commandButton value="Confirmar" actionListener="#{usuariosListBean.crear()}" 
+                        <p:commandButton value="Confirmar" actionListener="#{ingredientesBean.crear()}" 
                                          oncomplete="PF('addDialog').hide()" icon="ui-icon-check" 
                                          update=":#{p:component('detailsTable')} :#{p:component('addDialog')} :#{p:component('messages')}" style="margin:0" />   
                         <p:button value="Cerrar" onclick="PF('addDialog').hide()" icon="ui-icon-closethick"/> 
@@ -135,13 +114,13 @@
                 <div class="panel panel-primary">
 
                     <div class="panel-body">
-                       <fieldset>
+                        <fieldset>
                             <div class="row">
                                 <div class="control-group">
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" >#{label['nombreusuario']}</label>
                                         <div class="col-md-9">
-                                            <h:inputText id="nombreusuario" value="#{usuariosListBean.elemento.username}" required="true" class="form-control"/>
+                                            <h:inputText id="nombreusuario" value="#{ingredientesBean.elemento.nombre}" required="true" class="form-control"/>
                                         </div>
                                     </div>
                                 </div>
@@ -149,41 +128,20 @@
                             <div class="row">
                                 <div class="control-group">
                                     <div class="form-group">
-                                        <label class="col-md-3 control-label" >#{label['contrasena']}</label>
+                                        <label class="col-md-3 control-label" >#{label['unidadmedida']}</label>
                                         <div class="col-md-9">
-                                            <h:inputSecret id="pwd1Usuarios" value="#{usuariosListBean.elemento.password}" required="true" class="form-control"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="control-group">
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" >#{label['repetir']}</label>
-                                        <div class="col-md-9">
-                                            <h:inputSecret id="pwd2Usuarios" value="#{usuariosListBean.elemento.password}" required="true" class="form-control"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="control-group">
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" >#{label['rol']}</label>
-                                        <div class="col-md-9">
-                                            <p:selectOneMenu id="perfilUsuarios" value="#{usuariosListBean.elemento.rol.id}"  required="true">
+                                            <p:selectOneMenu value="#{ingredientesBean.elemento.unidadMedida}"  required="true">
                                                 <f:selectItem itemLabel="Select One" itemValue="" />
-                                                <f:selectItems value="#{usuariosListBean.perfiles}" var="var" itemLabel="#{var.nombre}" itemValue="#{var.id}"/>  
+                                                <f:selectItems value="#{listasNombresBean.unidadesMedida}" var="var" itemLabel="#{var}" itemValue="#{var}"/>  
                                             </p:selectOneMenu>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </fieldset>
                     </div>
                     <div class="panel-footer text-right"> 
-                        <p:commandButton value="Confirmar" action="#{usuariosListBean.editar()}" 
+                        <p:commandButton value="Confirmar" action="#{ingredientesBean.editar()}" 
                                          oncomplete="PF('editDialog').hide()" icon="ui-icon-check"
                                          update=":#{p:component('detailsTable')} :#{p:component('messages')}" style="margin:0"/>    
                         <p:button value="Cerrar" onclick="PF('editDialog').hide()" icon="ui-icon-closethick"/> 
@@ -192,12 +150,12 @@
             </p:dialog>
         </h:form>
         <h:form>
-            <p:confirmDialog id="deleteDialog" message="Quiere borrar el usuario #{usuariosListBean.elemento.username}?"  
+            <p:confirmDialog id="deleteDialog" message="Quiere borrar el ingrediente #{ingredientesBean.elemento.nombre}?"  
                              header="#{label['borrar']}" severity="alert" widgetVar="deleteDialog" closable="false">  
 
                 <p:commandButton id="confirm" value="#{label['aceptar']}" oncomplete="PF('deleteDialog').hide()"  
-                                 action="#{usuariosListBean.borrar()}" update=":#{p:component('detailsTable')} :#{p:component('messages')}"/>  
-                <p:commandButton id="decline" value="#{label['cancelas']}" onclick="PF('deleteDialog').hide()" type="button" />   
+                                 action="#{ingredientesBean.borrar()}" update=":#{p:component('detailsTable')} :#{p:component('messages')}"/>  
+                <p:commandButton id="decline" value="#{label['cancelar']}" onclick="PF('deleteDialog').hide()" type="button" />   
 
             </p:confirmDialog> 
         </h:form>

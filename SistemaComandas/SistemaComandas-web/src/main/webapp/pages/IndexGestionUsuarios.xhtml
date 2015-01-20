@@ -16,12 +16,14 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-12 panel-body panel-bodyindex">
                         <c:if test="#{sessionBean.perfilMatch(&quot;usuarios&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;usuarios&quot;)}" class="btn btn-primary btn-lg">
-                                <i class="fa fa-cogs fa-5x"></i> <br/>#{label['usuarios']}</h:commandLink>
+                            
+                            <h:link outcome="/pages/usuariosList.xhtml" class="btn btn-primary btn-lg">
+                                <i class="fa fa-users fa-5x"></i> <br/>#{label['usuarios']}</h:link>
                         </c:if>
                         <c:if test="#{sessionBean.perfilMatch(&quot;perfiles&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;perfiles&quot;)}" class="btn btn-primary btn-lg">
-                                <i class="fa fa-cogs fa-5x"></i> <br/>#{label['roles']}</h:commandLink>
+                            
+                            <h:link outcome="/pages/perfilesList.xhtml" class="btn btn-primary btn-lg">
+                                <i class="fa fa-puzzle-piece fa-5x"></i> <br/>#{label['roles']}</h:link>
                         </c:if>
                     </div>
                 </div>

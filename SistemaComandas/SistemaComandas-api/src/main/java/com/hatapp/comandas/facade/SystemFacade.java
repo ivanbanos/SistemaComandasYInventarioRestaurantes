@@ -21,5 +21,7 @@ public interface SystemFacade {
 
     public Usuarios getUsuario(String idUsuario);
 
+    public void subirImagen(byte[] contents, String fileName);
+
    
 }

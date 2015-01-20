@@ -23,6 +23,8 @@
     <class>com.hatapp.comandas.entity.MesasHasClientes</class>
     <class>com.hatapp.comandas.entity.PedidosHasPlatos</class>
     <class>com.hatapp.comandas.entity.Menu</class>
+    <class>com.hatapp.comandas.entity.PlatosHasIngredientes</class>
+    <class>com.hatapp.comandas.entity.AcompanantesHasIngredientes</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>

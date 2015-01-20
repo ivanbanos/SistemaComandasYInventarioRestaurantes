@@ -114,4 +114,4 @@ public class Atributosusuario implements Serializable {
         return "com.hatapp.comandas.entity.Atributosusuario[ id=" + id + " ]";
     }
 
-}
+    }

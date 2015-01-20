@@ -146,5 +146,5 @@ public class Usuarios implements Serializable {
     public String toString() {
         return "com.hatapp.comandas.entity.Usuarios[ username=" + username + " ]";
     }
-    
-}
+
+    }

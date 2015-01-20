@@ -108,5 +108,5 @@ public class Funciones implements Serializable {
     public String toString() {
         return "com.hatapp.comandas.entity.Funciones[ id=" + id + " ]";
     }
-    
-}
+
+    }

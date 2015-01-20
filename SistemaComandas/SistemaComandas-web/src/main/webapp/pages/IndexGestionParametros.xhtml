@@ -9,6 +9,29 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:define name="content">
-        
+        <h:form>
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 panel-body panel-bodyindex">
+                        <c:if test="#{sessionBean.perfilMatch(&quot;Mesas&quot;)}">
+                            
+                            <h:link outcome="/pages/mesasList.xhtml" class="btn btn-primary btn-lg">
+                                <i class="fa fa-coffee fa-5x"></i> <br/>#{label['mesas']}</h:link>
+                        </c:if>
+                        <c:if test="#{sessionBean.perfilMatch(&quot;Ingredientes&quot;)}">
+                            
+                            <h:link outcome="/pages/ingredientesList.xhtml" class="btn btn-primary btn-lg">
+                                <i class="fa fa-leaf fa-5x"></i> <br/>#{label['ingredientes']}</h:link>
+                        </c:if>
+                        <c:if test="#{sessionBean.perfilMatch(&quot;Platos&quot;)}">
+                            
+                            <h:link outcome="/pages/platosList.xhtml" class="btn btn-primary btn-lg">
+                                <i class="fa fa-cutlery fa-5x"></i> <br/>#{label['platos']}</h:link>
+                        </c:if>
+                    </div>
+                </div>
+            </div>
+        </h:form>
     </ui:define>            
 </ui:composition>

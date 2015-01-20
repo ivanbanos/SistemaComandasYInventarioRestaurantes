@@ -8,6 +8,7 @@ package com.hatapp.comandas.entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +21,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -37,8 +39,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Ingredientes.findByNombre", query = "SELECT i FROM Ingredientes i WHERE i.nombre = :nombre"),
     @NamedQuery(name = "Ingredientes.findByUnidadMedida", query = "SELECT i FROM Ingredientes i WHERE i.unidadMedida = :unidadMedida")})
 public class Ingredientes implements Serializable {
-    @ManyToMany(mappedBy = "ingredientesList")
-    private List<Platos> platosList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ingredientes")
+    private List<AcompanantesHasIngredientes> acompanantesHasIngredientesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ingredientes")
+    private List<PlatosHasIngredientes> platosHasIngredientesList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,8 +55,6 @@ public class Ingredientes implements Serializable {
     @Basic(optional = false)
     @Column(name = "unidadMedida")
     private String unidadMedida;
-    @ManyToMany(mappedBy = "ingredientesList", fetch = FetchType.EAGER)
-    private List<Acompanantes> acompanantesList;
     @JoinColumn(name = "Inventario_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Inventario inventarioid;
@@ -94,24 +96,6 @@ public class Ingredientes implements Serializable {
         this.unidadMedida = unidadMedida;
     }
 
-    @XmlTransient
-    public List<Acompanantes> getAcompanantesList() {
-        return acompanantesList;
-    }
-
-    public void setAcompanantesList(List<Acompanantes> acompanantesList) {
-        this.acompanantesList = acompanantesList;
-    }
-
-    @XmlTransient
-    public List<Platos> getPlatosList() {
-        return platosList;
-    }
-
-    public void setPlatosList(List<Platos> platosList) {
-        this.platosList = platosList;
-    }
-
     public Inventario getInventarioid() {
         return inventarioid;
     }
@@ -143,6 +127,24 @@ public class Ingredientes implements Serializable {
     @Override
     public String toString() {
         return "com.hatapp.comandas.entity.Ingredientes[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<AcompanantesHasIngredientes> getAcompanantesHasIngredientesList() {
+        return acompanantesHasIngredientesList;
+    }
+
+    public void setAcompanantesHasIngredientesList(List<AcompanantesHasIngredientes> acompanantesHasIngredientesList) {
+        this.acompanantesHasIngredientesList = acompanantesHasIngredientesList;
+    }
+
+    @XmlTransient
+    public List<PlatosHasIngredientes> getPlatosHasIngredientesList() {
+        return platosHasIngredientesList;
+    }
+
+    public void setPlatosHasIngredientesList(List<PlatosHasIngredientes> platosHasIngredientesList) {
+        this.platosHasIngredientesList = platosHasIngredientesList;
     }
     
 }

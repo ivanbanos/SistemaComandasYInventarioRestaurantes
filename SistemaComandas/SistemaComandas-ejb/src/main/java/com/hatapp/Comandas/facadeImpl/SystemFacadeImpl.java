@@ -10,7 +10,14 @@ import com.hatapp.comandas.exceptions.UsuarioNoConectadoException;
 import com.hatapp.comandas.exceptions.UsuarioNoExisteException;
 import com.hatapp.comandas.facade.SystemFacade;
 import com.hatapp.comandas.util.EncryptUtil;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -20,7 +27,7 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class SystemFacadeImpl implements SystemFacade {
-    
+
     @EJB
     UsuariosFacade usuariosFacadeRemote;
 
@@ -52,5 +59,32 @@ public class SystemFacadeImpl implements SystemFacade {
         return usuariosFacadeRemote.find(idUsuario);
     }
 
-   
+    @Override
+    public void subirImagen(byte[] contents, String fileName) {
+        try {
+            System.out.println(new String(contents));
+            File imagen = null;
+            StringBuilder sb = new StringBuilder();
+            sb.append(System.getProperty("APP_RESOURCES"))
+                    .append(System.getProperty("file.separator"))
+                    .append("imagenes").append(System.getProperty("file.separator"))
+                    .append("restaurante").append(System.getProperty("file.separator")).append(fileName);
+            imagen = new File(sb.toString());
+            if (imagen.exists()) {
+                imagen.delete();
+            }
+            OutputStream stream = null;
+            stream = new FileOutputStream(sb.toString());
+            if (contents != null) {
+                stream.write(contents);
+            }
+            stream.close();
+        } catch (FileNotFoundException ex) {
+            
+            System.out.println(ex);
+        } catch (IOException ex) {
+            
+            System.out.println(ex);
+        }
+    }
 }

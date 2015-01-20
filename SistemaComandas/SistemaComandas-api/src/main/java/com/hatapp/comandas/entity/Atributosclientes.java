@@ -105,5 +105,5 @@ public class Atributosclientes implements Serializable {
     public String toString() {
         return "com.hatapp.comandas.entity.Atributosclientes[ id=" + id + " ]";
     }
-    
-}
+
+    }

@@ -15,24 +15,24 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-12 panel-body panel-bodyindex">
                         <c:if test="#{sessionBean.perfilMatch(&quot;IndexGestionParametros&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;IndexGestionParametros&quot;)}" class="btn btn-primary btn-lg">
-                                <i class="fa fa-cogs fa-5x"></i> <br/>#{label['parametros']}</h:commandLink>
+                            <h:link outcome="/pages/IndexGestionParametros.xhtml" class="btn btn-primary btn-lg">
+                                <i class="fa fa-cogs fa-5x"></i> <br/>#{label['parametros']}</h:link>
                         </c:if>
                         <c:if test="#{sessionBean.perfilMatch(&quot;IndexGestionUsuarios&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;IndexGestionUsuarios&quot;)}" class="btn btn-primary btn-lg">
-                                <i class="fa fa-users fa-5x"></i> <br/>#{label['usuarios']}</h:commandLink>
+                            <h:link outcome="/pages/IndexGestionUsuarios.xhtml" class="btn btn-primary btn-lg">
+                                <i class="fa fa-users fa-5x"></i> <br/>#{label['usuarios']}</h:link>
                         </c:if>
                         <c:if test="#{sessionBean.perfilMatch(&quot;Inventario&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;Inventario&quot;)}" class="btn btn-primary btn-lg">
-                                <i class="fa fa-archive fa-5x"></i> <br/>#{label['inventario']}</h:commandLink>
+                            <h:link outcome="/pages/Inventario.xhtml" class="btn btn-primary btn-lg">
+                                <i class="fa fa-archive fa-5x"></i> <br/>#{label['inventario']}</h:link>
                         </c:if>
                         <c:if test="#{sessionBean.perfilMatch(&quot;Pedidos&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;Pedidos&quot;)}" class="btn btn-primary btn-lg">
-                                <i class="fa fa-pencil-square-o fa-5x"></i> <br/>#{label['pedidos']}</h:commandLink>
+                            <h:link outcome="/pages/Pedidos.xhtml" class="btn btn-primary btn-lg">
+                                <i class="fa fa-pencil-square-o fa-5x"></i> <br/>#{label['pedidos']}</h:link>
                         </c:if>
                         <c:if test="#{sessionBean.perfilMatch(&quot;Reportes&quot;)}">
-                            <h:commandLink  action="#{sessionBean.go(&quot;Reportes&quot;)}" class="btn btn-primary btn-lg">
-                                <i class="fa fa-bar-chart-o fa-5x"></i> <br/>#{label['reportes']}</h:commandLink>
+                            <h:link outcome="/pages/Reportes.xhtml" class="btn btn-primary btn-lg">
+                                <i class="fa fa-bar-chart-o fa-5x"></i> <br/>#{label['reportes']}</h:link>
                         </c:if>
                     </div>
                 </div>

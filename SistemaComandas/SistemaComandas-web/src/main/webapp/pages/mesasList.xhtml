@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template/Template.xhtml"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+
+
+        <div class="container">
+            <c:forEach var="mesa" items="#{mesasBean.mesas}">
+                <h:form>
+                    <div class="col-sm-4 col-md-4">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div >
+                                    <h3 class="panel-title">#{label['mesa']}</h3>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6 col-md-offset-3">
+                                        <h:graphicImage value="#{resource['images/mesa.png']}" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="control-group">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" >#{label['nombre']}</label>
+                                            <div class="col-md-9">
+                                                <h:inputText value="#{mesa.nombre}" required="true" class="form-control"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="control-group">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" >#{label['estado']}</label>
+                                            <div class="col-md-9">
+                                                <p:selectOneMenu  value="#{mesa.estado}" >
+                                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                                    <f:selectItems value="#{listasNombresBean.estadoMesas}" var="var" itemLabel="#{var}" itemValue="#{var}"/>  
+                                                </p:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer text-right"> 
+                                <h:commandLink rendered="#{sessionBean.rolMatch(&quot;editarMesa&quot;)}"
+                                               action="#{mesasBean.editar(mesa.id)}"
+                                               styleClass="btn btn-primary">
+                                    #{label['editar']}
+                                </h:commandLink> 
+                                <h:commandLink rendered="#{sessionBean.rolMatch(&quot;eliminarMesa&quot;)}"
+                                               action="#{mesasBean.borrar(mesa.id)}"
+                                               styleClass="btn btn-primary">
+                                    #{label['borrar']}
+                                </h:commandLink> 
+
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+            </c:forEach>
+            <c:if test="#{sessionBean.rolMatch(&quot;agregarMesa&quot;)}">
+                <h:form>
+                    <div class="col-sm-4 col-md-4">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div >
+                                    <h3 class="panel-title">#{label['mesa']}</h3>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6 col-md-offset-4">
+                                        <h:commandLink class="btn btn-primary" action="#{mesasBean.guardar()}">
+                                            <i class="fa fa-plus fa-5x"></i> <br/></h:commandLink>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="control-group">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" >#{label['nombre']}</label>
+                                            <div class="col-md-9">
+                                                <h:inputText value="#{mesasBean.elemento.nombre}" required="true" class="form-control"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row"><div class="control-group">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" >#{label['estado']}</label>
+                                            <div class="col-md-9">
+                                                <p:selectOneMenu value="#{mesasBean.elemento.estado}">
+                                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                                    <f:selectItems value="#{listasNombresBean.estadoMesas}" var="var" itemLabel="#{var}" itemValue="#{var}"/>  
+                                                </p:selectOneMenu>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+            </c:if>
+        </div>
+    </ui:define>            
+</ui:composition>

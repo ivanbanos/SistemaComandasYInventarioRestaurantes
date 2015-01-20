@@ -37,9 +37,10 @@ public class UsuariosListBean {
     public void init() {
         sessionBean.checkUsuarioConectado();
         sessionBean.perfilMatch("usuarios");
-        lista = adminFacade.getAllUsuarios();
         perfiles = adminFacade.getAllRoles();
+        lista = adminFacade.getAllUsuarios();
         elemento = new Usuarios();
+        elemento.setRol(new Roles());
     }
 
     public void setSessionBean(SessionBean sessionBean) {
@@ -76,6 +77,27 @@ public class UsuariosListBean {
 
     public void setElemento(Usuarios elemento) {
         this.elemento = elemento;
+    }
+    
+    public void crear(){
+        adminFacade.crearUsuario(elemento);
+        lista = adminFacade.getAllUsuarios();
+        elemento = new Usuarios();
+        elemento.setRol(new Roles());
+    }
+    
+    public void editar(){
+        adminFacade.editarUsuario(elemento);
+        lista = adminFacade.getAllUsuarios();
+        elemento = new Usuarios();
+        elemento.setRol(new Roles());
+    }
+    
+    public void borrar(){
+        adminFacade.borrarUsuario(elemento);
+        lista = adminFacade.getAllUsuarios();
+        elemento = new Usuarios();
+        elemento.setRol(new Roles());
     }
     
 }

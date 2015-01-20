@@ -149,4 +149,4 @@ public class Roles implements Serializable {
     public void setVistasList(List<Vistas> vistasList) {
         this.vistasList = vistasList;
     }
-}
+    }

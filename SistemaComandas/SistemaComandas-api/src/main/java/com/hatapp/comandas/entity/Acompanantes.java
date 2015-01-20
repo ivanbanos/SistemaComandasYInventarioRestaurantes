@@ -39,6 +39,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Acompanantes.findByGrupo", query = "SELECT a FROM Acompanantes a WHERE a.grupo = :grupo"),
     @NamedQuery(name = "Acompanantes.findByTipo", query = "SELECT a FROM Acompanantes a WHERE a.tipo = :tipo")})
 public class Acompanantes implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "acompanantes")
+    private List<AcompanantesHasIngredientes> acompanantesHasIngredientesList;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -53,11 +55,6 @@ public class Acompanantes implements Serializable {
     private String grupo;
     @Column(name = "tipo")
     private String tipo;
-    @JoinTable(name = "acompanantes_has_ingredientes", joinColumns = {
-        @JoinColumn(name = "Acompanantes_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "Ingredientes_id", referencedColumnName = "id")})
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Ingredientes> ingredientesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "acompanantes", fetch = FetchType.EAGER)
     private List<PedidosHasAcompanantes> pedidosHasAcompanantesList;
     @JoinColumn(name = "Foto", referencedColumnName = "id")
@@ -117,15 +114,6 @@ public class Acompanantes implements Serializable {
     }
 
     @XmlTransient
-    public List<Ingredientes> getIngredientesList() {
-        return ingredientesList;
-    }
-
-    public void setIngredientesList(List<Ingredientes> ingredientesList) {
-        this.ingredientesList = ingredientesList;
-    }
-
-    @XmlTransient
     public List<PedidosHasAcompanantes> getPedidosHasAcompanantesList() {
         return pedidosHasAcompanantesList;
     }
@@ -165,6 +153,15 @@ public class Acompanantes implements Serializable {
     @Override
     public String toString() {
         return "com.hatapp.comandas.entity.Acompanantes[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<AcompanantesHasIngredientes> getAcompanantesHasIngredientesList() {
+        return acompanantesHasIngredientesList;
+    }
+
+    public void setAcompanantesHasIngredientesList(List<AcompanantesHasIngredientes> acompanantesHasIngredientesList) {
+        this.acompanantesHasIngredientesList = acompanantesHasIngredientesList;
     }
     
 }
