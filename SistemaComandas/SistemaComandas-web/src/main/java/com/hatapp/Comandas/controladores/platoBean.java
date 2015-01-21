@@ -5,9 +5,13 @@
 package com.hatapp.Comandas.controladores;
 
 import com.hatapp.comandas.entity.Fotos;
+import com.hatapp.comandas.entity.Ingredientes;
 import com.hatapp.comandas.entity.Platos;
+import com.hatapp.comandas.entity.PlatosHasIngredientes;
 import com.hatapp.comandas.facade.ManagerUserFacade;
 import com.hatapp.comandas.facade.SystemFacade;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -29,7 +33,10 @@ public class platoBean {
     SystemFacade sessionFacade;
     @ManagedProperty("#{sessionBean}")
     private SessionBean sessionBean;
-    Platos elemento;
+    private Platos elemento;
+    private List<Ingredientes> ingredientes;
+    private List<Ingredientes> seleccionados;
+    private List<PlatosHasIngredientes> ingreditenesPlato;
 
     @PostConstruct
     public void init() {
@@ -40,6 +47,13 @@ public class platoBean {
             elemento.setFoto(new Fotos());
         } else {
             elemento = managerUserFacade.findPlato((Integer) sessionBean.getAttributes().get("id"));
+        }
+        ingredientes = managerUserFacade.getAllIngredientes();
+        seleccionados = new ArrayList<>();
+        if (elemento.getPlatosHasIngredientesList() != null) {
+            ingreditenesPlato = elemento.getPlatosHasIngredientesList();
+        } else {
+            ingreditenesPlato = new ArrayList<>();
         }
     }
 
@@ -66,17 +80,70 @@ public class platoBean {
     public void setElemento(Platos elemento) {
         this.elemento = elemento;
     }
-    
+
     public void handleFileUpload(FileUploadEvent event) {
-        sessionFacade.subirImagen(event.getFile().getContents(),event.getFile().getFileName());
+        sessionFacade.subirImagen(event.getFile().getContents(), event.getFile().getFileName());
         Fotos foto = new Fotos();
         foto.setUrl(event.getFile().getFileName());
         foto = managerUserFacade.crearFoto(foto);
         elemento.setFoto(foto);
     }
-    
-    public void guardar(){
+
+    public void guardar() {
+        elemento.setPlatosHasIngredientesList(ingreditenesPlato);
         managerUserFacade.crearPlato(elemento);
-        
+
     }
+
+    public SystemFacade getSessionFacade() {
+        return sessionFacade;
+    }
+
+    public void setSessionFacade(SystemFacade sessionFacade) {
+        this.sessionFacade = sessionFacade;
+    }
+
+    public List<Ingredientes> getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(List<Ingredientes> ingredientes) {
+        this.ingredientes = ingredientes;
+    }
+
+    public List<Ingredientes> getSeleccionados() {
+        return seleccionados;
+    }
+
+    public void setSeleccionados(List<Ingredientes> seleccionados) {
+        this.seleccionados = seleccionados;
+    }
+
+    public void selectIngredientes() {
+        System.out.println("Colocando Ingredientes");
+        for (Ingredientes ingrediente : seleccionados) {
+            System.out.println("Ingrediente: " + ingrediente.getNombre());
+            PlatosHasIngredientes phi;
+            if (elemento.getId() != null) {
+                phi = new PlatosHasIngredientes(elemento.getId(), ingrediente.getId());
+                
+            } else {
+                phi = new PlatosHasIngredientes(0, ingrediente.getId());
+            }
+            phi.setIngredientes(ingrediente);
+            phi.setCantidad(0f);
+            ingreditenesPlato.add(phi);
+        }
+
+        System.out.println("FIN");
+    }
+
+    public List<PlatosHasIngredientes> getIngreditenesPlato() {
+        return ingreditenesPlato;
+    }
+
+    public void setIngreditenesPlato(List<PlatosHasIngredientes> ingreditenesPlato) {
+        this.ingreditenesPlato = ingreditenesPlato;
+    }
+
 }

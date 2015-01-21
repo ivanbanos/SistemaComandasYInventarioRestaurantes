@@ -33,9 +33,8 @@ public class PedidosHasAcompanantes implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PedidosHasAcompanantesPK pedidosHasAcompanantesPK;
-    @Size(max = 45)
     @Column(name = "cantidad")
-    private String cantidad;
+    private Integer cantidad;
     @JoinColumn(name = "Pedido", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Pedidos pedidos;
@@ -62,11 +61,11 @@ public class PedidosHasAcompanantes implements Serializable {
         this.pedidosHasAcompanantesPK = pedidosHasAcompanantesPK;
     }
 
-    public String getCantidad() {
+    public Integer getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(String cantidad) {
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
 

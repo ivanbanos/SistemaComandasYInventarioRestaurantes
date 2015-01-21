@@ -47,12 +47,64 @@
                                               update=":#{p:component('form')}" sizeLimit="1000000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
                             </div>
                         </div>
+
+
+
                         <div class="row">
                             <div class="col-md-12">
-                                
+
+
+                                <p:dataTable id="detailsTable" var="element" value="#{platoBean.ingreditenesPlato}"  
+                                             emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable"
+                                             rows="10" rowsPerPageTemplate="5,10,15,20" paginator="true" editable="true"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+                                    <f:facet name="header">
+                                        <p:commandButton id="addButton" oncomplete="PF('addIngredienteDialog').show();" 
+                                                         value="#{label['agregar']}" icon="ui-icon-plusthick" title="#{label['agregar']}"/>  
+                                    </f:facet>
+
+                                    <p:column headerText="#{label['nombre']}" sortBy="#{element.ingredientes.nombre}" filterBy="#{element.ingredientes.nombre}" filterMatchMode="contains" >
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{element.ingredientes.nombre}" /></f:facet>
+                                            <f:facet name="input"><h:outputText value="#{element.ingredientes.nombre}"/></f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+
+                                    <p:column headerText="#{label['unidadmedida']}" sortBy="#{element.ingredientes.unidadesMedidasid.abreviacion}" filterBy="#{element.ingredientes.unidadesMedidasid.abreviacion}" filterMatchMode="in" >
+                                        <f:facet name="filter">
+                                            <p:selectCheckboxMenu label="#{label['unidadesmedida']}" onchange="PF('detailsTable').filter()" >
+                                                <f:selectItems value="#{listasNombresBean.unidadesMedida}" />
+                                            </p:selectCheckboxMenu>
+                                        </f:facet>
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{element.ingredientes.unidadesMedidasid.abreviacion}" /></f:facet>
+                                            <f:facet name="input"><h:outputText value="#{element.ingredientes.unidadesMedidasid.abreviacion}"/></f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+
+                                    <p:column headerText="#{label['cantidad']}" sortBy="#{element.cantidad}" filterBy="#{element.cantidad}" filterMatchMode="contains" >
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{element.cantidad}" /></f:facet>
+                                            <f:facet name="input"><p:spinner  stepFactor="0.25" value="#{element.cantidad}"/></f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+
+                                    <p:column >
+                                        <p:rowEditor />
+                                    </p:column>
+
+                                </p:dataTable>
+
+
                             </div>
                         </div>
+
+
+
+
                     </div>
+
                     <div class="panel-footer text-right"> 
                         <h:commandLink id="btnconfirm"
                                        action="#{platoBean.guardar()}"
@@ -65,6 +117,49 @@
                     </div>
                 </div>
             </h:form>
+
+            <h:form>
+                <p:dialog id="addIngredienteDialog" header="#{label['agregar']}" widgetVar="addIngredienteDialog" modal="true"  resizable="false">
+                    <div class="panel panel-primary">
+
+                        <div class="panel-body">
+
+
+                            <p:dataTable id="ingredientes" var="ingrediente" value="#{platoBean.ingredientes}"  
+                                         emptyMessage="#{label['lb_table.noelementos']}" widgetVar="detailsTable" selection="#{platoBean.seleccionados}" rowKey="#{ingrediente.id}"
+                                         rows="10" rowsPerPageTemplate="5,10,15,20" paginator="true" editable="true"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+
+                                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                                <p:column headerText="#{label['nombre']}" sortBy="#{ingrediente.nombre}" filterBy="#{ingrediente.nombre}" filterMatchMode="contains" >
+                                    <h:outputText value="#{ingrediente.nombre}" />
+                                </p:column>
+
+                                <p:column headerText="#{label['unidadmedida']}" sortBy="#{ingrediente.unidadesMedidasid.abreviacion}" filterBy="#{ingrediente.unidadesMedidasid.abreviacion}" filterMatchMode="in" >
+                                    <f:facet name="filter">
+                                        <p:selectCheckboxMenu label="#{label['unidadesmedida']}" onchange="PF('ingredientes').filter()" >
+                                            <f:selectItems value="#{listasNombresBean.unidadesMedida}" />
+                                        </p:selectCheckboxMenu>
+                                    </f:facet>
+                                    <h:outputText value="#{ingrediente.unidadesMedidasid.abreviacion}" />
+                                </p:column>
+
+                            </p:dataTable>
+
+
+                        </div>
+                        <div class="panel-footer text-right"> 
+                            <p:commandButton value="Confirmar" actionListener="#{platoBean.selectIngredientes()}" 
+                                             oncomplete="PF('addIngredienteDialog').hide()" icon="ui-icon-check" 
+                                             update="@all" style="margin:0" /> 
+                        </div>
+                    </div>
+                </p:dialog> 
+            </h:form>
         </div>
+
+
+
     </ui:define>            
 </ui:composition>

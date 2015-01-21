@@ -33,9 +33,8 @@ public class PedidosHasPlatos implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PedidosHasPlatosPK pedidosHasPlatosPK;
-    @Size(max = 45)
     @Column(name = "cantidad")
-    private String cantidad;
+    private Integer cantidad;
     @JoinColumn(name = "Plato", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Platos platos;
@@ -62,11 +61,11 @@ public class PedidosHasPlatos implements Serializable {
         this.pedidosHasPlatosPK = pedidosHasPlatosPK;
     }
 
-    public String getCantidad() {
+    public Integer getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(String cantidad) {
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
 

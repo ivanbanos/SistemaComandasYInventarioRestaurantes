@@ -10,6 +10,8 @@ import com.hatapp.comandas.entity.Ingredientes;
 import com.hatapp.comandas.entity.Inventario;
 import com.hatapp.comandas.entity.Mesas;
 import com.hatapp.comandas.entity.Platos;
+import com.hatapp.comandas.entity.PlatosHasIngredientes;
+import com.hatapp.comandas.entity.PlatosHasIngredientesPK;
 import com.hatapp.comandas.entity.Unidadesmedidas;
 import com.hatapp.comandas.facade.ManagerUserFacade;
 import java.util.List;
@@ -21,8 +23,8 @@ import javax.ejb.Stateless;
  * @author ideacentre
  */
 @Stateless
-public class ManagerUserFacadeImpl implements ManagerUserFacade{
-    
+public class ManagerUserFacadeImpl implements ManagerUserFacade {
+
     @EJB
     MesasFacade mesasFacade;
     @EJB
@@ -37,6 +39,8 @@ public class ManagerUserFacadeImpl implements ManagerUserFacade{
     FotosFacade fotosFacade;
     @EJB
     UnidadesmedidasFacade unidadesmedidasFacade;
+    @EJB
+    PlatosHasIngredientesFacade platosHasIngredientesFacade;
 
     @Override
     public List<Mesas> getAllMesas() {
@@ -114,7 +118,20 @@ public class ManagerUserFacadeImpl implements ManagerUserFacade{
 
     @Override
     public void crearPlato(Platos elemento) {
-        platosFacade.create(elemento);
+
+        List<PlatosHasIngredientes> ingredientes = elemento.getPlatosHasIngredientesList();
+        elemento.setPlatosHasIngredientesList(null);
+        if (elemento.getId() == null) {
+            platosFacade.create(elemento);
+        }
+        for (PlatosHasIngredientes ingrediente : ingredientes) {
+            ingrediente.setPlatos(elemento);
+            ingrediente.setIngredientes(ingrediente.getIngredientes());
+            ingrediente.setPlatosHasIngredientesPK(new PlatosHasIngredientesPK(elemento.getId(), ingrediente.getIngredientes().getId()));
+            platosHasIngredientesFacade.edit(ingrediente);
+        }
+        elemento.setPlatosHasIngredientesList(ingredientes);
+        platosFacade.edit(elemento);
     }
 
     @Override
@@ -126,5 +143,5 @@ public class ManagerUserFacadeImpl implements ManagerUserFacade{
     public void editarInventario(Inventario inventarioid) {
         inventarioFacade.edit(inventarioid);
     }
-    
+
 }
